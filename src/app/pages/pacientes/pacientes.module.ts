@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PacientesRoutingModule } from './pacientes-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -27,7 +30,12 @@ import { NgModule } from '@angular/core';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    PacientesRoutingModule
+    PacientesRoutingModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule,
   ]
 })
 export class PacientesModule { }
