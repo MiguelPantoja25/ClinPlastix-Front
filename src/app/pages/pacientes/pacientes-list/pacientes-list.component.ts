@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Paciente {
   id: number;
@@ -15,6 +16,9 @@ interface Paciente {
   styleUrl: './pacientes-list.component.scss'
 })
 export class PacientesListComponent implements OnInit {
+constructor(private router: Router) {}
+
+
   pacientes: Paciente[] = [];
   filtro: string = '';
   displayedColumns: string[] = ['id', 'nombre', 'telefono', 'estatus', 'acciones'];
@@ -125,7 +129,7 @@ export class PacientesListComponent implements OnInit {
 
   editar(id: number): void {
     console.log('Editar paciente con ID:', id);
-    // this.router.navigate(['/pacientes/editar', id]);
+  this.router.navigate(['/pacientes/editar', id]);
   }
 
   eliminar(id: number): void {
@@ -135,8 +139,8 @@ export class PacientesListComponent implements OnInit {
     }
   }
 
-  crear(): void {
+  NuevoPaciente(): void {
     console.log('Crear nuevo paciente');
-    // this.router.navigate(['/pacientes/nuevo']);
+  this.router.navigate(['/pacientes/nuevo']);
   }
 }
