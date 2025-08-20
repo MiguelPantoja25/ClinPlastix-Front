@@ -1,10 +1,42 @@
 export interface Paciente {
-    id?: number;
+  id: string;
   nombre: string;
-  apellido: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  fechaNacimiento: string;
+  sexo: string;
   telefono: string;
-  correo: string;
-  estatus: 'valoracion' | 'presupuesto' | 'espera' | 'post' | 'no-atendido';
-  fechaNacimiento?: string; // opcional
-  genero?: 'M' | 'F' | 'Otro'; // opcional
+  email: string;
+  curp: string;
+
+  calleNumero: string;
+  colonia: string;
+  cp: string;
+  municipio: string;
+  estado: string;
+
+  tipoSangre: string;
+  alergias: string;
+  padecimientos: string;
+  medicamentos: string;
+
+  emergenciaNombre: string;
+  emergenciaRelacion: string;
+  emergenciaTelefono: string;
+
+  aseguradora: string;
+  poliza: string;
+  vigenciaDesde: string;
+  vigenciaHasta: string;
+
+  rfc: string;
+  factRazonSocial: string;
+  factUsoCfdi: string;
+  factCalleNumero: string;
+  factColonia: string;
+  factCp: string;
+  factMunicipio: string;
+  factEstado: string;
+
+  aceptaAvisoPrivacidad: boolean;
 }

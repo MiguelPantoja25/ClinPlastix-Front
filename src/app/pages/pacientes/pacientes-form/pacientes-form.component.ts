@@ -21,6 +21,7 @@ export class PacientesFormComponent implements OnInit {
     genero: "",
     // otras propiedades...
   };
+  /*
   estatusOptions: { value: Paciente["estatus"]; label: string }[] = [
     { value: "valoracion", label: "Consulta de valoración" },
     { value: "presupuesto", label: "Con presupuesto" },
@@ -28,15 +29,12 @@ export class PacientesFormComponent implements OnInit {
     { value: "post", label: "Consulta post" },
     { value: "no-atendido", label: "No atendido" },
   ];
-
-  generoOptions = ["M", "F", "Otro"];
-
+*/
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private snack: MatSnackBar
-  ) // private pacientesService: PacientesService // cuando conectes backend
-  { }
+    private snack: MatSnackBar // private pacientesService: PacientesService // cuando conectes backend
+  ) { }
 
   ngOnInit() {
     this.generaForm();
@@ -52,32 +50,46 @@ export class PacientesFormComponent implements OnInit {
 
   generaForm() {
     this.formularioPaciente = new FormGroup({
-      id: new FormControl("", [Validators.required]),
-      nombre: new FormControl("", [
-        Validators.required,
-        Validators.minLength(2),
-      ]),
-      apellidoPaterno: new FormControl("", [
-        Validators.required,
-        Validators.minLength(2),
-      ]),
-      apellidoMaterno: new FormControl("", [
-        Validators.required,
-        Validators.minLength(2),
-      ]),
-      fechaNacimiento: new FormControl("", [
-        Validators.required
-      ]),
-      sexo: new FormControl("", [
-        Validators.required
-      ]),
-      telefono: new FormControl("", [
-        Validators.pattern(/^[0-9\-+\s()]{7,20}$/),
-      ]),
+      id: new FormControl("1", [Validators.required]),
+      nombre: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      apellidoPaterno: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      apellidoMaterno: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      fechaNacimiento: new FormControl("", [Validators.required]),
+      sexo: new FormControl("", [Validators.required]),
+      telefono: new FormControl("", [Validators.pattern(/^[0-9\-+\s()]{7,20}$/),Validators.requiredTrue]),
       email: new FormControl("", [Validators.required, Validators.email]),
-      curp: new FormControl("", [Validators.pattern(/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/i)]),
-      estatus: new FormControl("valoracion", Validators.required),
+      curp: new FormControl("", [Validators.pattern(/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/i),]),
 
+      calleNumero: new FormControl("", ),
+      colonia: new FormControl("", ),
+      cp: new FormControl("", ),
+      municipio: new FormControl("", ),
+      estado: new FormControl("", ),
+
+      tipoSangre: new FormControl("", ),
+      alergias: new FormControl("", ),
+      padecimientos: new FormControl("", ),
+      medicamentos: new FormControl("", ),
+
+      emergenciaNombre: new FormControl("", ),
+      emergenciaRelacion: new FormControl("", ),
+      emergenciaTelefono: new FormControl("", ),
+
+      aseguradora: new FormControl("", ),
+      poliza: new FormControl("", ),
+      vigenciaDesde: new FormControl("", ),
+      vigenciaHasta: new FormControl("", ),
+
+      rfc: new FormControl("", ),
+      factRazonSocial: new FormControl("", ),
+      factUsoCfdi: new FormControl("", ),
+      factCalleNumero: new FormControl("", ),
+      factColonia: new FormControl("", ),
+      factCp: new FormControl("", ),
+      factMunicipio: new FormControl("", ),
+      factEstado: new FormControl("", ),
+
+      aceptaAvisoPrivacidad: new FormControl(false, ),
     });
   }
 
@@ -85,14 +97,46 @@ export class PacientesFormComponent implements OnInit {
   private cargarPaciente(id: number): void {
     // MOCK: si quieres ver pre-cargado, pon datos dummy aquí.
     const mock: Paciente = {
-      id,
-      nombre: "Paciente",
-      apellido: `#${id}`,
-      telefono: "555-0000",
-      correo: `paciente${id}@ejemplo.com`,
-      estatus: "valoracion",
-      fechaNacimiento: "",
-      genero: "M",
+      id: id.toString(),
+    nombre: "Juan",
+    apellidoPaterno: "Pérez",
+    apellidoMaterno: "García",
+    fechaNacimiento: "1990-05-15",
+    sexo: "femenino",
+    telefono: "555-123-4567",
+    email: "juan.perez@example.com",
+    curp: "PEGA900515HMCRRL09",
+
+    calleNumero: "Av. Reforma 123",
+    colonia: "Centro",
+    cp: "06000",
+    municipio: "Ciudad de México",
+    estado: "CDMX",
+
+    tipoSangre: "O+",
+    alergias: "Ninguna",
+    padecimientos: "Ninguno",
+    medicamentos: "Ninguno",
+
+    emergenciaNombre: "María López",
+    emergenciaRelacion: "Esposa",
+    emergenciaTelefono: "555-987-6543",
+
+    aseguradora: "Seguros Ejemplo",
+    poliza: "POL123456",
+    vigenciaDesde: "2024-01-01",
+    vigenciaHasta: "2025-01-01",
+
+    rfc: "PEGA9005151A0",
+    factRazonSocial: "Juan Pérez García",
+    factUsoCfdi: "G03",
+    factCalleNumero: "Av. Reforma 123",
+    factColonia: "Centro",
+    factCp: "06000",
+    factMunicipio: "Ciudad de México",
+    factEstado: "CDMX",
+
+    aceptaAvisoPrivacidad: true,
     };
     this.formularioPaciente.patchValue(mock);
     console.log(mock);

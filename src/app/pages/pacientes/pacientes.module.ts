@@ -13,6 +13,8 @@ import { NgModule } from '@angular/core';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDivider } from "@angular/material/divider";
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -36,6 +38,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-  ]
+    MatDivider,
+    ReactiveFormsModule,MatCheckboxModule,
+]
 })
 export class PacientesModule { }
