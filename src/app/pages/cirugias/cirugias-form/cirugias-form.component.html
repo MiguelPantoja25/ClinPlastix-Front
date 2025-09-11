@@ -1,1 +1,323 @@
-<p>cirugias-form works!</p>
+<form [formGroup]="formularioCirugias" (ngSubmit)="guardar()">
+    <!--Datos generales-->
+    <mat-card class="mb-4"> <!--creacion de tarjeta con un margen inferioe de mb 1.5-->
+        <mat-card-title>Datos generales de la Cirugia</mat-card-title> <!--titulo visual del formulario-->
+        <mat-card-content> <!--Area donde iran los campos de los formularios-->
+         <div class="row g-12"> <!--organiza como iran los campos de filas con g-12 espacio entre columnas-->
+            <!--CAMPO NUMERO DE CIRUGIAS-->
+            <mat-form-field class="col-md-3"> <!--Define el campo que ocupara 2/12-->
+             <mat-label>Numero de Cirugia</mat-label>  <!--Etiqueta que se utilizara fuera del input-->
+             <input matInput formControlName="folio" placeholder="Folio"/>
+             <mat-error *ngIf="hasError('folio', 'required')">El folio es requerido.</mat-error> 
+            </mat-form-field>    
+            <!--cAMPO PACIENTE-->     
+            <!--NOMBRE-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Nombre (s)</mat-label>
+                <input matInput formControlName="nombre" placeholder="Nombre" />
+                <mat-error *ngIf="hasError('nombre', 'required')">El nombre es requerido.</mat-error>
+                <mat-error *ngIf="hasError('nombre', 'minlength')">El nombre debe de contener al menos 3 caracteres</mat-error>
+            </mat-form-field>
+            <!--ApPaterno-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Apellido Paterno</mat-label>
+                <input matInput formControlName="apellidoPaterno" placeholder="Apellido Paterno"/>
+                <mat-error *ngIf="hasError('apellidoPaterno', 'required')">El apellido paterno es requerido.</mat-error>
+                <mat-error *ngIf="hasError('apellidoPaterno', 'minlength')">El apellido paterno debe de contener almenos 2 caracteres.</mat-error>
+            </mat-form-field>
+            <!--ApMaterno-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Apellido Materno</mat-label>
+                <input matInput formControlName="apellidoMaterno" placeholder="Apellido Materno" />
+                <mat-error *ngIf="hasError('apellidoMaterno', 'required')">El apellido materno es requerido.</mat-error>
+                <mat-error *ngIf="hasError('apellidoMaterno', 'minlength')">El apellido materno debe de contener almenos 2 caracteres</mat-error>
+            </mat-form-field>
+            <!--Fecha de nacimiento-->
+            <mat-form-field class="col-md-4">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input matInput [matDatepicker]="pickerNacimiento" formControlName="fechaNacimiento"
+                placeholder="Selecciona la fecha" />
+                <mat-datepicker-toggle matSuffix [for]="pickerNacimiento"></mat-datepicker-toggle>
+                <mat-datepicker #pickerNacimiento></mat-datepicker>
+                <mat-error *ngIf="hasError('fechaNacimiento', 'required')">La fecha de nacimiento es requerida.</mat-error>
+            </mat-form-field>
+            <!--Sexo-->
+            <mat-form-field class="col-md-4">
+                <mat-label>Sexo</mat-label>
+                <mat-select formControlName="sexo">
+                    <mat-option value="femenino">Femenino</mat-option>
+                    <mat-option value="masculino">Masculino</mat-option>
+                    <mat-option value="no_especifica">Prefiero no decir</mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('sexo', 'required')">El sexo es requerido.</mat-error>
+            </mat-form-field>
+            <!--Telefono-->
+            <mat-form-field class="col-md-4">
+                <mat-label>Telefono (10 digitos)</mat-label>
+                <input matInput type="tel" formControlName="telefono" maxlength="10" placeholder="10 dígitos" pattern="[0-9]{10}" (input)="onInputNumber($event)"/>                <mat-error *ngIf="hasError('telefono', 'required')">El telefono es requerido.</mat-error>
+                <mat-error *ngIf="hasError('telefono', 'pattern')">El telefono es invalido.</mat-error>
+            </mat-form-field>
+            <!--Email-->
+            <mat-form-field class="col-md-5">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" placeholder="Email"/>
+                <mat-error *ngIf="hasError('email', 'required')">El email es requerido.</mat-error>
+                <mat-error *ngIf="hasError('email', 'email')">Correo invalido.</mat-error>
+            </mat-form-field>
+            <!--Doctor Principal-->
+            <mat-form-field class="col-md-4">
+                <mat-label>Doctor principal / Cirujano </mat-label>
+                <input matInput formControlName="cirujano" placeholder="Cirujano"/>  
+                <mat-error *ngIf="hasError('cirujano', 'required')">El cirujano es requerido.</mat-error>
+                <mat-error *ngIf="hasError('cirujano', 'minlength')">El cirujano debe de contener almenos 3 caracteres.</mat-error>
+            </mat-form-field>
+            <!--Especialidad del doctor-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Especialidad del Doctor</mat-label>
+                <input matInput formControlName="especialidadDoctor" placeholder="Especialidad del doctor" />
+                <mat-error *ngIf="hasError('especialidadDoctor', 'required')">La especialidad del doctor es requerida</mat-error>
+                <mat-error *ngIf="hasError('especialidadDoctor', 'minlength')">La especialidad del docotor debe de contener por lo menos 2 caracteres.  </mat-error>
+            </mat-form-field>  
+            <!--Equipo medico asistente-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Equipo medico asistente</mat-label>
+                <mat-select formControlName="equipoMedico" multiple>
+                    <mat-option value="anastesiologo">Anestesiologo</mat-option>
+                    <mat-option value="enfermeria">Enfermeria</mat-option>
+                    <mat-option value="ayudantes">Ayudantes</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!--Tipo de cirugia-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Tipo de Cirugia</mat-label>
+                <mat-select formControlName="tipoCirugia">
+                    <mat-option value="estetica">Estetica</mat-option>
+                    <mat-option value="reconstructiva">Reconstructiva</mat-option>
+                    <mat-option value="general">General</mat-option>
+                    <mat-option value="curativas">Curativas</mat-option>
+                    <mat-option value="transplantes">Transplantes</mat-option>
+                </mat-select>
+            <!--Procedimiento a realizar-->
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Procedimiento a realizar</mat-label>
+                <input matInput formControlName="descripcion" placeholder="Descripcion" />
+                <mat-error *ngIf="hasError('descripcion', 'required')">La descripcion del procedimiento es requerido.</mat-error>
+                <mat-error *ngIf="hasError('descripcion', 'minlength')">La descripcion debe de contener al menos 5 caracteres.</mat-error>
+            </mat-form-field>
+            <!--Estado de la cirugia-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Estado de la cirugia</mat-label>
+                <mat-select formControlName="estadoCirugia">
+                    <mat-option value="programada">Programada</mat-option>
+                    <mat-option value="en_curso">En curso</mat-option>
+                    <mat-option value="finalizada">Finalizada</mat-option>
+                    <mat-option value="cancelada">Cancelada</mat-option>
+                    <mat-option value="reprogramada">Reprogramada</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!--Prioridad-->
+            <mat-form-field class="col-md-3">
+                <mat-label>Prioridad</mat-label>
+                <mat-select formControlName="prioridad">
+                    <mat-option value="electiva">Electiva</mat-option>
+                    <mat-option value="urgente">Urgente</mat-option>
+                </mat-select>
+            </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!--PREPARACION PREOPERATORIA-->
+    <mat-card class="mb-4">
+        <mat-card-title>Preparacion preoperatoria.</mat-card-title>
+        <mat-card-content>
+            <div class="row g-12">
+                <mat-form-field class="col-md-4">
+                    <mat-label>Exámenes preoperatorios realizados</mat-label>
+                    <mat-select formControlName="examenesPreoperatorios" multiple >
+                        <mat-option value="laboratorio">Laboratorio.</mat-option>
+                        <mat-option value="imagen">Imagen</mat-option>
+                        <mat-option value="quimicaSanguinea">Quimica Sanguinea.</mat-option>
+                        <mat-option value="biometriaHematica">Biometria hematica</mat-option>
+                    </mat-select> 
+                </mat-form-field>
+                <!--Evaluacion anestesica-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Evaluacion anestesica</mat-label>
+                    <input matInput formControlName="evaluacionAnestesica" />
+                    <mat-error *ngIf="hasError('evaluacionAnestesica', 'required')">Requerido</mat-error>
+                </mat-form-field>
+                <!--Aergias-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Alergias del paciente</mat-label>
+                    <input matInput formControlName="alergiasPaciente" />
+                    <mat-error *ngIf="hasError('alergiasPaciente', 'required')">Requerido</mat-error>
+                </mat-form-field>
+                <!--Medicametos Actuales-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Medicamentos actuales</mat-label>
+                    <input matInput formControlName="medicamentosActuales" placeholder="Medicamentos actuales"/>
+                    <mat-error *ngIf="hasError('medicamentosActuales', 'required')">Requerido</mat-error>
+                </mat-form-field>
+                <!--Ayuno Confirmado-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Ayuno Confirmado</mat-label>
+                    <input matInput formControlName="ayunoConfirmado" />
+                    <mat-error *ngIf="hasError('ayunoConfirmado', 'required')">Requerido</mat-error>
+                </mat-form-field>
+                <!--Consentimiento informado firmado-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Consentimiento informado firmado</mat-label>
+                    <mat-select formControlName="consentimiento">
+                        <mat-option value="si">Si</mat-option>
+                        <mat-option value="no">No</mat-option>
+                        <mat-option value="adjunto">Adjunto</mat-option>
+                        <mat-error *ngIf="hasError('consentimiento', 'required')">Requerido</mat-error>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <!--Detalles intraoperatorios-->
+    <mat-card class="mb-4">
+        <mat-card-title>Detalles Intraoperatorios</mat-card-title>
+        <mat-card-content>
+            <div class="row g-12">
+                <!--hora de inicio real-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Hora de inicio real</mat-label>
+                    <input matInput formControlName="horaInicio" placeholder="Hora de inicio real" />
+                    <mat-error *ngIf="hasError('horaInicio', 'required')"> La hora de inicio real es requerida,</mat-error>
+                </mat-form-field>
+                <!--Hora de fin real-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Hora de fin real</mat-label>
+                    <input matInput formControlName="horaFin" placeholder="Hora de fin real" />
+                    <mat-error *ngIf="hasError('horaFin', 'required')"> La hora de fin real es requerida,</mat-error>
+                </mat-form-field>
+                <!--Anestesia utilizada (tipo y dosis)-->
+                <mat-form-field class="col-md-3">
+                    <mat-label> Anestesia utilizada (tipo y dosis)</mat-label>
+                    <input matInput formControlName="anestesiaTipoDosis" placeholder="Tipo y dosis" />
+                    <mat-error *ngIf="hasError('anestesiaTipoDosis', 'required')">El tipo y dosis de la anestesia a tilizar es requerida.</mat-error>
+                </mat-form-field>
+                <!--Material quirúrgico utilizado-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Material quirúrgico utilizado</mat-label>
+                    <input matInput formControlName="materialQuirurgico" placeholder="Material quirúrgico" />
+                    <mat-error *ngIf="hasError('materialQuirurgico', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+                <!--Complicaciones intrapreoperatorias-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Complicaciones intraoperatorias</mat-label>
+                    <input matInput formControlName="complicacionesIntraoperatorias" placeholder="Complicaciones intraoperatorias" />
+                    <mat-error *ngIf="hasError('complicacionesIntraoperatorias', 'required')">Requerido</mat-error>
+                </mat-form-field>
+                <!--Notas quirúrgicas-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Notas quirúrgicas</mat-label>
+                    <input matInput formControlName="notasQuirurgicas" placeholder="Notas quirúrgicas" />
+                    <mat-error *ngIf="hasError('notasQuirurgicas', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <!--Postoperatorio-->
+    <mat-card class="mb-4">
+        <mat-card-title>Postoperatorio</mat-card-title>
+        <mat-card-content>
+            <div class="row g-12">
+                <!--Diagnóstico postoperatorio-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Diagnóstico postoperatorio</mat-label>
+                    <input matInput formControlName="diagnosticoPostoperatorio" placeholder="Diagnostico postoperatorio" />
+                    <mat-error *ngIf="hasError('diagnosticoPostoperatorio', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+                <!--Indicaciones médicas-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Indicaciones Medicas</mat-label>
+                    <input matInput formControlName="indicacionesMedicas" placeholder="Indicaciones Medicas" />
+                    <mat-error *ngIf="hasError('indicacionesMedicas', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+                <!--Medicamentos postoperatorios-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Medicamentos postoperatorios</mat-label>
+                    <input matInput formControlName="medicamentosPostoperatorios" placeholder="Medicamentos Postoperatorios" />
+                    <mat-error *ngIf="hasError('medicamentosPostoperatorios', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+                <!--Tiempo de recuperación estimado-->
+                <mat-form-field class="col-md-4">
+                    <mat-label>Tiempo de recuperación estimado</mat-label>
+                    <input matInput formControlName="tiempoRecuperacion" placeholder="Tiempo de recuperación estimado" />
+                    <mat-error *ngIf="hasError('tiempoRecuperacion', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+                <!--Hospitalización requerida-->
+                <mat-form-field class="col-md-5">
+                    <mat-label>Hospitalización requerida</mat-label>
+                    <mat-select formControlName="hospitalizacionRequerida">
+                        <mat-option value="si">Si</mat-option>
+                        <mat-option value="no">No</mat-option>
+                        <mat-error *ngIf="hasError('hospitalizacionRequerida', 'required')">Requerido</mat-error>
+                    </mat-select>
+                </mat-form-field>
+                <!--Sala / cama asignada-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Sala / cama asignada</mat-label>
+                    <input matInput formControlName="salaCamaAsignada" placeholder="Sala / Cama asignada" />
+                    <mat-error *ngIf="hasError('salaCamaAsignada', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <!--Auditoría y control-->
+    <mat-card class="mb-4">
+        <mat-card-title>Auditoria y Control.</mat-card-title>
+        <mat-card-content>
+            <div class="row g-12">
+                <!--Usuario que registró la cirugía-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Usuario que registró la cirugía</mat-label>
+                    <input matInput formControlName="usuarioRegistro" placeholder="Usuario que registro la cirugia"/>
+                    <mat-error *ngIf="hasError('usuarioRegistro','required')">Requerido.</mat-error>
+                </mat-form-field>
+                <!--Fecha de registro-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Fecha de registro</mat-label>
+                    <input matInput [matDatepicker]="pickerRegistro" formControlName="fechaRegistro"
+                    placeholder="Selecciona la fecha" />
+                    <mat-datepicker-toggle matSuffix [for]="pickerRegistro"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerRegistro></mat-datepicker>
+                    <mat-error *ngIf="hasError('fechaRegistro', 'required')">La fecha de registro es requerida.</mat-error>
+                </mat-form-field>
+                <!--Última actualización-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Última actualización</mat-label>
+                    <input matInput [matDatepicker]="pickerActualizacion" formControlName="ultimaActualizacion"
+                    placeholder="Selecciona la fecha" />
+                    <mat-datepicker-toggle matSuffix [for]="pickerActualizacion"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerActualizacion></mat-datepicker>
+                    <mat-error *ngIf="hasError('ultimaActualizacion', 'required')">La fecha de ultima actualización es requerida.</mat-error>
+                </mat-form-field>
+                <!--Historial de cambios-->
+                <mat-form-field class="col-md-3">
+                    <mat-label>Historial de Cambios</mat-label>
+                    <input matInput formControlName="historialCambios" placeholder="Historial de cambios realizados" />
+                    <mat-error *ngIf="hasError('historialCambios', 'required')">Requerido.</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+  <!-- Acciones -->
+
+  <div style="display: flex; justify-content: flex-end">
+    <button mat-stroked-button type="button" (click)="cancelar()">
+      <mat-icon>close</mat-icon> Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formularioCirugias.invalid" class="ms-3">
+      <mat-icon>save</mat-icon> Guardar
+    </button>
+  </div>
+</form>
+
+
