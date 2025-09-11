@@ -56,24 +56,24 @@ export class PacientesFormComponent implements OnInit {
       apellidoMaterno: new FormControl("", [Validators.required,Validators.minLength(2),]),
       fechaNacimiento: new FormControl("", [Validators.required]),
       sexo: new FormControl("", [Validators.required]),
-      telefono: new FormControl("", [Validators.pattern(/^[0-9\-+\s()]{7,20}$/),Validators.requiredTrue]),
+      telefono: new FormControl("", [Validators.required,Validators.pattern(/^[0-9]{10}$/),]),
       email: new FormControl("", [Validators.required, Validators.email]),
       curp: new FormControl("", [Validators.pattern(/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/i),]),
 
-      calleNumero: new FormControl("", ),
-      colonia: new FormControl("", ),
-      cp: new FormControl("", ),
-      municipio: new FormControl("", ),
-      estado: new FormControl("", ),
+      calleNumero: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      colonia: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      cp: new FormControl("",[Validators.required, Validators.pattern(/^\d{5}$/)]),
+      municipio: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      estado: new FormControl("", [Validators.required,Validators.minLength(2),]),
 
-      tipoSangre: new FormControl("", ),
-      alergias: new FormControl("", ),
-      padecimientos: new FormControl("", ),
-      medicamentos: new FormControl("", ),
+      tipoSangre: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      alergias: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      padecimientos: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      medicamentos: new FormControl("", [Validators.required,Validators.minLength(2),]),
 
-      emergenciaNombre: new FormControl("", ),
-      emergenciaRelacion: new FormControl("", ),
-      emergenciaTelefono: new FormControl("", ),
+      emergenciaNombre: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      emergenciaRelacion: new FormControl("", [Validators.required,Validators.minLength(2),]),
+      emergenciaTelefono: new FormControl("", [Validators.required,Validators.pattern(/^[0-9]{10}$/),]),
 
       aseguradora: new FormControl("", ),
       poliza: new FormControl("", ),
@@ -178,4 +178,9 @@ export class PacientesFormComponent implements OnInit {
     const c = this.formularioPaciente.get(ctrl);
     return !!c && c.touched && c.hasError(error);
   }
+
+onInputNumber(event: any) {
+  const input = event.target as HTMLInputElement;
+  input.value = input.value.replace(/\D/g, '');
+}
 }
