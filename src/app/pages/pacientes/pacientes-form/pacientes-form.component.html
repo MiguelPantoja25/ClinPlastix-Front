@@ -1,14 +1,9 @@
 <form [formGroup]="formularioPaciente" (ngSubmit)="guardar()">
   <!-- Datos generales -->
   <mat-card class="mb-4">
-    <mat-card-title>Datos del paciente</mat-card-title>
+    <mat-card-title>Datos del paciente - {{ formularioPaciente.get('id')?.value }}</mat-card-title>
     <mat-card-content>
-      <div class="row g-12">
-        <mat-form-field class="col-md-2">
-          <mat-label>ID</mat-label>
-          <input matInput formControlName="id" placeholder="ID" [readonly]="true" />
-          <mat-error *ngIf="hasError('id', 'required')">El ID es requerido.</mat-error>
-        </mat-form-field>
+      <div class="row g-3">
         <mat-form-field class="col-md-3">
           <mat-label>Nombre(s)</mat-label>
           <input matInput formControlName="nombre" placeholder="Nombre" />
@@ -43,7 +38,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-md-4">
+        <mat-form-field class="col-md-2">
           <mat-label>Sexo</mat-label>
           <mat-select formControlName="sexo">
             <mat-option value="femenino">Femenino</mat-option>
@@ -52,22 +47,24 @@
           </mat-select>
           <mat-error *ngIf="hasError('sexo', 'required')">El sexo es requerido</mat-error>
         </mat-form-field>
+        </div>
 
+        <div class="row g-3">
         <mat-form-field class="col-md-4">
           <mat-label>Teléfono (10 dígitos)</mat-label>
-          <input matInput formControlName="telefono" inputmode="numeric" maxlength="10" />
+          <input matInput type="tel" formControlName="telefono" maxlength="10" placeholder="10 dígitos" pattern="[0-9]{10}" (input)="onInputNumber($event)"/>
           <mat-error *ngIf="hasError('telefono', 'required')">El telefono es requerido</mat-error>
           <mat-error *ngIf="hasError('telefono', 'pattern')">Formato inválido</mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-md-6">
+        <mat-form-field class="col-md-4">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" />
           <mat-error *ngIf="hasError('email', 'required')">El email es requerido</mat-error>
           <mat-error *ngIf="hasError('email', 'email')">Correo inválido</mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-md-6">
+        <mat-form-field class="col-md-4">
           <mat-label>CURP</mat-label>
           <input matInput formControlName="curp" />
           <mat-hint>Opcional</mat-hint>
@@ -96,7 +93,7 @@
 
         <mat-form-field class="col-md-3">
           <mat-label>Código Postal</mat-label>
-          <input matInput formControlName="cp" maxlength="5" inputmode="numeric" />
+          <input matInput formControlName="cp" maxlength="5" inputmode="numeric"  />
           <mat-error *ngIf="hasError('cp', 'required')">Requerido</mat-error>
           <mat-error *ngIf="hasError('cp', 'pattern')">CP inválido</mat-error>
         </mat-form-field>
@@ -124,21 +121,25 @@
         <mat-form-field class="col-md-3">
           <mat-label>Tipo de sangre</mat-label>
           <input matInput formControlName="tipoSangre" placeholder="p.ej. O+, A-" />
+          <mat-error *ngIf="hasError('tipoSangre', 'required')">Requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-9">
           <mat-label>Alergias</mat-label>
           <input matInput formControlName="alergias" />
+          <mat-error *ngIf="hasError('alergias', 'required')">Requeridas</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-12">
           <mat-label>Padecimientos crónicos</mat-label>
           <textarea matInput rows="2" formControlName="padecimientos"></textarea>
+          <mat-error *ngIf="hasError('padecimientos', 'required')">Requeridos</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-12">
           <mat-label>Medicamentos actuales</mat-label>
           <textarea matInput rows="2" formControlName="medicamentos"></textarea>
+          <mat-error *ngIf="hasError('medicamentos', 'required')">Requeridos</mat-error>
         </mat-form-field>
       </div>
     </mat-card-content>
@@ -152,16 +153,19 @@
         <mat-form-field class="col-md-5">
           <mat-label>Nombre</mat-label>
           <input matInput formControlName="emergenciaNombre" />
+          <mat-error *ngIf="hasError('emergenciaNombre', 'required')">Requerido</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-3">
           <mat-label>Relación</mat-label>
           <input matInput formControlName="emergenciaRelacion" />
+          <mat-error *ngIf="hasError('emergenciaRelacion', 'required')">Requerida</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-4">
           <mat-label>Teléfono</mat-label>
-          <input matInput formControlName="emergenciaTelefono" maxlength="10" inputmode="numeric" />
+          <input matInput type="tel" formControlName="emergenciaTelefono" maxlength="10" placeholder="10 dígitos" pattern="[0-9]{10}" (input)="onInputNumber($event)"/>
+          <mat-error *ngIf="hasError('emergenciaTelefono', 'required')">Requerido</mat-error>
           <mat-error *ngIf="hasError('emergenciaTelefono', 'pattern')">Formato inválido</mat-error>
         </mat-form-field>
       </div>
