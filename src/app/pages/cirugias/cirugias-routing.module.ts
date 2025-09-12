@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CirugiasComponent } from './cirugias.component';
+import { CirugiasListComponent } from './cirugias-list/cirugias-list.component';
+import { CirugiasFormComponent } from './cirugias-form/cirugias-form.component';
 
-const routes: Routes = [{ path: '', component: CirugiasComponent }];
+const routes: Routes = [{ path: '', component: CirugiasListComponent, data:{ title:'Cirugias'} },
+  { path: 'nuevo', component: CirugiasFormComponent, data:{ title:'Nueva Cirugia'}},
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class CirugiasRoutingModule { }
+
+
