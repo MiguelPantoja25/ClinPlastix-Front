@@ -157,6 +157,6 @@ displayedColumns: string[] = ['id','userName', 'nombre', 'telefono','rol', 'esta
 
   NuevoUsuario(): void {
     console.log('Crear nuevo usuario');
-  this.router.navigate(['/usuario/nuevo']);
+  this.router.navigate(['/usuarios/nuevo']);
   }
 }
