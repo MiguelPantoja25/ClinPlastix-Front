@@ -1,1 +1,179 @@
-<p>presupuestos-form works!</p>
+<form [formGroup]="formularioPresupuesto" (ngSubmit)="guardar()">
+
+  <!-- Datos generales -->
+  <mat-card class="mb-4">
+    <mat-card-title>Datos del Presupuesto</mat-card-title>
+    <mat-card-content>
+      <div class="row g-3">
+        
+        <mat-form-field class="col-md-3"> 
+       <mat-label>Número de Presupuesto</mat-label>
+       <input matInput type="text" formControlName="numero"/>
+       <mat-error *ngIf="hasError('numero','required')">Requerido</mat-error>
+      <mat-error *ngIf="hasError('numero','pattern')">Solo se permiten números</mat-error>
+      </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Fecha de Elaboración</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaElaboracion"
+            placeholder="Selecciona la fecha" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="hasError('fechaElaboracion', 'required')">
+            La fecha de elaboración es requerida.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Paciente</mat-label>
+          <input matInput formControlName="paciente"/>
+          <mat-error *ngIf="hasError('paciente','required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Doctor responsable</mat-label>
+          <input matInput formControlName="doctor"/>
+          <mat-error *ngIf="hasError('doctor','required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="usuario"/>
+          <mat-error *ngIf="hasError('usuario','required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="estado">
+            <mat-option *ngFor="let est of estadosPresupuesto" [value]="est">{{est}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('estado','required')">Requerido</mat-error>
+        </mat-form-field>
+
+         <mat-form-field class="col-md-3">
+          <mat-label>Fecha de Vencimiento</mat-label>
+          <input matInput [matDatepicker]="pickerVencimiento" formControlName="fechaVencimiento"
+            placeholder="Selecciona la fecha" />
+          <mat-datepicker-toggle matSuffix [for]="pickerVencimiento"></mat-datepicker-toggle>
+          <mat-datepicker #pickerVencimiento></mat-datepicker>
+          <mat-error *ngIf="hasError('fechaVencimiento', 'required')">
+            La fecha de vencimiento es requerida.
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Conceptos -->
+  <mat-card class="mb-4">
+    <mat-card-title>Conceptos</mat-card-title>
+    <mat-card-content>
+      <button mat-raised-button color="primary" type="button" (click)="agregarConcepto()">+ Agregar</button>
+      <div formArrayName="conceptos" class="mt-3">
+        <div *ngFor="let concepto of conceptos.controls; let i = index" [formGroupName]="i" class="row g-3 align-items-center mb-2">
+          
+          <mat-form-field class="col-md-4">
+            <mat-label>Descripción</mat-label>
+            <input matInput formControlName="descripcion"/>
+            <mat-error *ngIf="hasErrorConcepto(i,'descripcion','required')">Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" formControlName="cantidad"/>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Precio Unitario</mat-label>
+            <input matInput type="number" formControlName="precioUnitario"/>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Descuento</mat-label>
+            <input matInput type="number" formControlName="descuento"/>
+          </mat-form-field>
+
+          <div class="col-md-1 d-flex justify-content-center">
+            <button mat-icon-button color="warn" type="button" (click)="eliminarConcepto(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Totales -->
+  <mat-card class="mb-4">
+    <mat-card-title>Totales</mat-card-title>
+    <mat-card-content>
+      <div class="row g-3">
+        <mat-form-field class="col-md-3">
+          <mat-label>Subtotal</mat-label>
+          <input matInput formControlName="subtotalGeneral" readonly/>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Descuento Total</mat-label>
+          <input matInput formControlName="descuentoTotal" readonly/>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Impuestos</mat-label>
+          <input matInput formControlName="impuestosTotales" readonly/>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Total Final</mat-label>
+          <input matInput formControlName="totalFinal" readonly/>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Datos adicionales -->
+  <mat-card class="mb-4">
+    <mat-card-title>Datos adicionales</mat-card-title>
+    <mat-card-content>
+      <div class="row g-3">
+        
+        <mat-form-field class="col-md-3">
+          <mat-label>Condiciones de pago</mat-label>
+          <mat-select formControlName="condicionesPago">
+            <mat-option *ngFor="let c of condicionesPago" [value]="c">{{c}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Moneda</mat-label>
+          <mat-select formControlName="moneda">
+            <mat-option *ngFor="let m of monedas" [value]="m">{{m}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-3">
+          <mat-label>Método de pago sugerido</mat-label>
+          <mat-select formControlName="metodoPago">
+            <mat-option *ngFor="let m of metodosPago" [value]="m">{{m}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-12">
+          <mat-label>Notas u observaciones</mat-label>
+          <textarea matInput rows="2" formControlName="notas"></textarea>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Acciones -->
+  <div style="display: flex; justify-content: flex-end">
+    <button mat-stroked-button type="button" (click)="cancelar()">
+      <mat-icon>close</mat-icon> Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formularioPresupuesto.invalid" class="ms-3">
+      <mat-icon>save</mat-icon> Guardar
+    </button>
+  </div>
+</form>

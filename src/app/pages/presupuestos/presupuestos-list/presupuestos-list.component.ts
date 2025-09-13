@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-presupuestos-list',
   templateUrl: './presupuestos-list.component.html',
