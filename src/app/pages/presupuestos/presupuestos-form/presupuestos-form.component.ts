@@ -166,7 +166,9 @@ export class PresupuestosFormComponent implements OnInit {
         estado: 'Borrador',
         moneda: 'MXN',
       });
-      this.agregarConcepto();
+       this.agregarConcepto();
+      
+      this.router.navigate(['/presupuestos']);
     }
   }
 }
