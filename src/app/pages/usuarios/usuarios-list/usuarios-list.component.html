@@ -1,9 +1,3 @@
-<div class="encabezado">
-    <button mat-raised-button color="primary" (click)="NuevoUsuario()">
-        <mat-icon>person_add</mat-icon> Nuevo Usuario
-    </button>
-</div>
-
 <!-- Tarjetas resumen -->
 <div class="resumen-cards">
     <mat-card class="card" *ngFor="let item of resumen">
@@ -17,11 +11,17 @@
 
 <!-- Tabla de pacientes -->
 <mat-card class="tabla-card">
+    <div class="buscador-acciones">
     <mat-form-field appearance="outline" class="buscador">
-        <mat-label>Buscar usuario</mat-label>
+        <mat-label>Buscar paciente</mat-label>
         <input matInput [(ngModel)]="filtro" (ngModelChange)="aplicarFiltro()" placeholder="Nombre o apellido">
-
     </mat-form-field>
+    
+    <button mat-raised-button color="primary" (click)="NuevoUsuario()">
+        <mat-icon>person_add</mat-icon> Nuevo paciente
+    </button>
+    
+</div>
 
     <table mat-table [dataSource]="usuariosFiltrados" class="mat-elevation-z8 full-width-table">
         <ng-container matColumnDef="id">
