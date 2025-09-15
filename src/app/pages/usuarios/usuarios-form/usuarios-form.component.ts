@@ -85,11 +85,10 @@ export class UsuariosFormComponent implements OnInit {
         }),
         ultimoAcceso: new FormControl({ value: "", disabled: true }),
       },
-      { validators: this.passwordsMatchValidator } // 🔥 validador a nivel de formulario
+      { validators: this.passwordsMatchValidator } 
     );
   }
 
-  // 🔥 Validador personalizado
   private passwordsMatchValidator(
     group: AbstractControl
   ): ValidationErrors | null {
@@ -150,4 +149,10 @@ export class UsuariosFormComponent implements OnInit {
     const c = this.formularioUsuario.get(ctrl);
     return !!c && c.touched && c.hasError(error);
   }
+
+  onInputNumber(event: any) {
+  const input = event.target as HTMLInputElement;
+  input.value = input.value.replace(/\D/g, '');
+}
+
 }
