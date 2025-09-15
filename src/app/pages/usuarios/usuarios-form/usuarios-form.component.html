@@ -34,12 +34,11 @@
 
         <mat-form-field class="col-md-6">
           <mat-label>Teléfono</mat-label>
-          <input matInput type="number" formControlName="telefono" maxlength="10" placeholder="10 dígitos" />
-          <mat-error *ngIf="hasError('telefono', 'required')">El teléfono es requerido</mat-error>
-          <mat-error *ngIf="hasError('telefono', 'pattern')">Formato inválido</mat-error>
-        </mat-form-field>
+          <input matInput type="tel" formControlName="telefono" maxlength="10" placeholder="10 dígitos" pattern="[0-9]{10}" (input)="onInputNumber($event)"/>
+          <mat-error *ngIf="hasError('telefono', 'required')"> El teléfono es requerido </mat-error>
+          <mat-error *ngIf="hasError('telefono', 'pattern')"> Debe contener exactamente 10 números </mat-error>
+          </mat-form-field>
 
-        <!-- Campos automáticos -->
         <mat-form-field class="col-md-6">
           <mat-label>Fecha de registro</mat-label>
           <input matInput formControlName="fechaRegistro" [readonly]="true" />
@@ -53,7 +52,6 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Credenciales -->
   <mat-card class="mb-4">
     <mat-card-title>Credenciales</mat-card-title>
     <mat-card-content>
@@ -89,7 +87,6 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Permisos y estado -->
   <mat-card class="mb-4">
     <mat-card-title>Permisos y estado</mat-card-title>
     <mat-card-content>
