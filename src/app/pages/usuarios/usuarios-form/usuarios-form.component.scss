@@ -1,0 +1,59 @@
+.form-card {
+  padding: 1rem 1.2rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.section-title {
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+mat-divider {
+  margin: 1rem 0;
+}
+
+/* Ajustes visuales de títulos de sección */
+mat-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Previsualización del avatar */
+.avatar-preview {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.avatar-preview img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}

@@ -63,6 +63,7 @@
 .buscador {
     width: 300px;
     margin-bottom: 1rem;
+    flex: 1;
 }
 
 .paciente-card {
@@ -101,3 +102,13 @@
         gap: 8px;
     }
 }
+
+
+.buscador-acciones {
+  display: flex;
+  align-items: baseline; 
+  gap: 2rem;
+}
+
+
+
