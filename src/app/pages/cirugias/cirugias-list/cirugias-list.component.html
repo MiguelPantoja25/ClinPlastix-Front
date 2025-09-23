@@ -1,4 +1,81 @@
 <!--mat-nav-list>cirugias-list works!</p>-->
-<button mat-raised-button color="primary" [routerLink]="['/cirugias/nuevo']">
-  <mat-icon>add</mat-icon> Nueva Cirugia
-</button>
+<!--CARDS-->
+<div class="resumen-cards">
+  <mat-card class="card" *ngFor="let item of resumen">
+    <mat-icon class="icon">{{ item.icon }}</mat-icon>
+    <div class="info">
+      <span class="valor">{{ item.valor }}</span>
+      <span class="titulo">{{ item.titulo }}</span>
+    </div>
+  </mat-card>
+</div>
+<!--buscador-->
+<mat-card class="tabla-card">
+  <div class="buscador-acciones">
+      <mat-form-field appearance="outline" class="buscador">
+        <mat-label>Buscar cirugia</mat-label>
+        <input matInput [(ngModel)]="filtro" (ngModelChange)="aplicarFiltro()" placeholder="Nombre o apellido">
+      </mat-form-field>
+      
+      <!--BOTON-->
+      <button mat-raised-button color="primary" [routerLink]="['/cirugias/nuevo']">
+        <mat-icon>add</mat-icon> Nueva Cirugia
+      </button>
+    </div>
+    <!--tablas-->
+    <table mat-table [dataSource]="cirugiasFiltrados" class="mat-elevation-z8 full-width-table">
+      <!--ID CIRUGIA-->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> Id Cirugia </th>
+          <td mat-cell *matCellDef="let c"> {{ c.id }} </td>
+        </ng-container>
+        <!--PACIENTE-->
+        <ng-container matColumnDef="paciente">
+          <th mat-header-cell *matHeaderCellDef> Paciente </th>
+          <td mat-cell *matCellDef="let c"> {{ c.paciente }} </td>
+        </ng-container>
+        <!--Doctor-->
+        <ng-container matColumnDef="doctor">
+          <th mat-header-cell *matHeaderCellDef> Doctor/Cirujano </th>
+          <td mat-cell *matCellDef="let c"> {{ c.doctor }} </td>
+        </ng-container>
+        <!--Tipo de Cirugia-->
+        <ng-container matColumnDef="tipocirugia">
+          <th mat-header-cell *matHeaderCellDef> Tipo de Cirugía </th>
+          <td mat-cell *matCellDef="let c"> {{ c.tipocirugia }} </td>
+        </ng-container>
+        <!--Estado-->
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef> Estado </th>
+          <td mat-cell *matCellDef="let c"> {{ c.estado }} </td>
+        </ng-container>
+        <!--Fecha Programada-->
+        <ng-container matColumnDef="fechaProgramada">
+          <th mat-header-cell *matHeaderCellDef> Fecha Programada </th>
+          <td mat-cell *matCellDef="let c"> {{ c.fechaProgramada }} </td>
+        </ng-container>
+        <!--Prioridad-->
+        <ng-container matColumnDef="prioridad">
+          <th mat-header-cell *matHeaderCellDef> Prioridad </th>
+          <td mat-cell *matCellDef="let c"> {{ c.prioridad }} </td>
+        </ng-container>
+        <!--Acciones-->
+         <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let c">
+                <button mat-icon-button color="primary" (click)="editar(c.id)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="eliminar(c.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</mat-card>
+
+        
+
+
