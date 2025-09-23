@@ -1,0 +1,31 @@
+<form [formGroup]="formularioLogin" (ngSubmit)="IniciarSesion()">
+  <!-- Datos generales -->
+  <mat-card class="mb-4">
+    <mat-card-title>Inicio de sesion</mat-card-title>
+    <mat-card-content>
+      <div class="row g-3">
+        <mat-form-field class="col-md-3">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="usuario" placeholder="usuario" />
+          <mat-error *ngIf="hasError('usuario', 'required')">El usuario es requerido.</mat-error>
+          <mat-error *ngIf="hasError('usuario', 'minlength')">El nombre debe tener al menos 2 caracteres.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-2">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="contraseña" placeholder="contraseña" />
+
+          <mat-error *ngIf="hasError('contraseña', 'required')">La contraseña es requerida.</mat-error>
+          <mat-error *ngIf="hasError('contraseña', 'minlength')">La contraseña debe tener al menos 2 caracteres.</mat-error>
+        </mat-form-field>
+        </div>
+    </mat-card-content>
+  </mat-card>
+
+    <!-- Acciones -->
+  <div style="display: flex; justify-content: flex-end">
+    <button mat-stroked-button type="button" (click)="IniciarSesion()">
+      Iniciar sesion
+    </button>
+  </div>
+</form>

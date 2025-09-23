@@ -21,12 +21,13 @@ export class LayoutComponent {
       let r = this.ar;
       while (r.firstChild) r = r.firstChild;
 
-      const t = r.snapshot.data['title'] as string | undefined;
+      const t = r.snapshot.data['titulo'] as string | undefined;
       this.pageTitle = t ?? 'ClinPlatix';
       this.title.setTitle(`${this.pageTitle} | ClinPlatix`); // título del documento (opcional)
     });
   }
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
-  }
-}
+
+  } 
+ }
