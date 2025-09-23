@@ -46,8 +46,11 @@ export class LayoutComponent {
 
   private checkScreenSize() {
     this.isMobile = window.innerWidth < 768;
-    if (this.isMobile) {
-    this.isMenuOpen = false;
+      if (this.isMobile) {
+        this.isMenuOpen = false;
+          } else {
+        this.isMobile = false;
+      this.isMenuOpen = true;
+    }
   }
-}
 }
