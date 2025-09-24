@@ -13,12 +13,12 @@
 <mat-card class="tabla-card">
     <div class="buscador-acciones">
     <mat-form-field appearance="outline" class="buscador">
-        <mat-label>Buscar paciente</mat-label>
+        <mat-label>Buscar usuario</mat-label>
         <input matInput [(ngModel)]="filtro" (ngModelChange)="aplicarFiltro()" placeholder="Nombre o apellido">
     </mat-form-field>
     
     <button mat-raised-button color="primary" (click)="NuevoUsuario()">
-        <mat-icon>person_add</mat-icon> Nuevo paciente
+        <mat-icon>person_add</mat-icon> Nuevo usuario
     </button>
     
 </div>
