@@ -44,3 +44,13 @@
   margin-right: 12px;
   }
 }
+
+mat-nav-list {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 64px);
+}
+
+.logout-item {
+  margin-top: auto;
+}

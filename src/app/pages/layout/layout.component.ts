@@ -54,4 +54,10 @@ export class LayoutComponent {
       this.isMenuOpen = true;
     }
   }
+  
+  logout() {
+  localStorage.clear();
+  this.router.navigate(['/login']);
+}
+
 }

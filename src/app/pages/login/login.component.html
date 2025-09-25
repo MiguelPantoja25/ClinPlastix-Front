@@ -19,6 +19,11 @@
           <mat-error *ngIf="hasError('contraseña', 'minlength')">La contraseña debe tener al menos 2 caracteres.</mat-error>
         </mat-form-field>
         </div>
+
+       <div class="olvido-contrasena">
+        <a (click)="olvidoContrasena()">¿Olvidaste tu contraseña?</a>
+        </div>
+
     </mat-card-content>
   </mat-card>
 

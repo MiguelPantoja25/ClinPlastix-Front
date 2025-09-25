@@ -63,3 +63,21 @@ button[mat-icon-button] {
     padding: 1rem;
   }
 }
+
+/*  --- link "Olvidaste tu contraseña" --- */
+.olvido-contrasena {
+  margin-top: 8px;
+  text-align: right; 
+}
+
+.olvido-contrasena a {
+  font-size: 0.9rem;
+  color: #3f51b5; 
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.olvido-contrasena a:hover {
+  text-decoration: underline;
+}
+

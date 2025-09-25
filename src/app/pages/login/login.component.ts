@@ -56,6 +56,10 @@ export class LoginComponent implements OnInit {
       });
     }
   }
+   olvidoContrasena() {
+    // Decidir qué hacer
+    this.router.navigate(['/recuperar-password']);
+   }
 
   // Helper para el template
   hasError(ctrl: string, error: string): boolean {
