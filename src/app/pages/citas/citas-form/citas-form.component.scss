@@ -1,0 +1,114 @@
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.resumen-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0.75rem;
+    min-height: 120px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+
+    .icon {
+        font-size: 32px;
+        color: #3f51b5;
+        margin-bottom: 0.5rem; // Solo margen inferior
+        margin-right: 0;       // Elimina margen lateral
+        min-width: 32px;
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .valor {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .titulo {
+            font-size: 13px;
+            color: gray;
+        }
+    }
+}
+
+.tabla-card {
+    padding: 1rem;
+}
+
+.full-width-table {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.buscador {
+    width: 300px;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.paciente-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .datos {
+        flex: 1;
+
+        h3 {
+            margin: 0 0 5px;
+        }
+
+        p {
+            margin: 2px 0;
+            display: flex;
+            align-items: center;
+
+            mat-icon {
+                font-size: 18px;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .acciones {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+    }
+}
+
+
+.buscador-acciones {
+  display: flex;
+  align-items: baseline; 
+  gap: 2rem;
+}
+
+
+
