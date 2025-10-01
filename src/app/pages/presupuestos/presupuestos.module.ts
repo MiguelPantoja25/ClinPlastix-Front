@@ -6,7 +6,7 @@ import { PresupuestosRoutingModule } from './presupuestos-routing.module';
 import { PresupuestosListComponent } from './presupuestos-list/presupuestos-list.component';
 import { PresupuestosFormComponent } from './presupuestos-form/presupuestos-form.component';
 
-
+// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +17,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FormsModule,
     ReactiveFormsModule,
     PresupuestosRoutingModule,
-  
+
+    // Angular Material
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -39,6 +41,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatNativeDateModule,
     MatDividerModule,
     MatCheckboxModule,
+    MatTableModule
   ]
 })
 export class PresupuestosModule { }
