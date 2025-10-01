@@ -27,3 +27,30 @@
   top: 0;
   z-index: 100;
 }
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 220px;
+  }
+}
+
+.main-header button {
+    display: inline-flex;
+  }
+
+@media (min-width: 768px) {
+  .main-header button {
+  display: inline-flex;
+  margin-right: 12px;
+  }
+}
+
+mat-nav-list {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 64px);
+}
+
+.logout-item {
+  margin-top: auto;
+}

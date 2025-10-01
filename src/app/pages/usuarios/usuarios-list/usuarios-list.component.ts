@@ -134,7 +134,6 @@ displayedColumns: string[] = ['id','userName', 'nombre', 'telefono','rol', 'esta
   }
 
   aplicarFiltro(): void {
-    debugger;
     const texto = this.filtro.toLowerCase();
     this.usuariosFiltrados = this.usuarios.filter(u =>
       u.nombre.toLowerCase().includes(texto) ||
