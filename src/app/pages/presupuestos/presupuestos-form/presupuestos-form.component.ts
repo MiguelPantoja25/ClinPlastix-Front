@@ -6,7 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-presupuestos-form',
@@ -15,25 +16,40 @@ import { Router } from '@angular/router';
 })
 export class PresupuestosFormComponent implements OnInit {
   formularioPresupuesto!: FormGroup;
+  titulo = 'Nuevo Presupuesto';
+  idEdit?: number;
 
-  // Catálogos (listas) usados en el HTML
+  // Catálogos
   estadosPresupuesto = ['Borrador', 'Enviado', 'Aprobado', 'Rechazado', 'Cancelado'];
   condicionesPago = ['Contado', 'Parcialidades', 'Financiamiento'];
   monedas = ['MXN', 'USD', 'EUR'];
   metodosPago = ['Efectivo', 'Tarjeta', 'Transferencia', 'Seguro'];
 
-  // Config fiscal 
-  readonly IVA = 0.16; 
+  readonly IVA = 0.16;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private route: ActivatedRoute,
+    private router: Router,
+    private snack: MatSnackBar
   ) {}
 
   ngOnInit(): void {
+    this.generarFormulario();
+
+    // detectar edición
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.idEdit = +id;
+      this.titulo = 'Editar Presupuesto';
+      this.cargarPresupuesto(this.idEdit);
+    }
+  }
+
+  generarFormulario(): void {
     this.formularioPresupuesto = this.fb.group({
-      //  Datos generales
-      numero: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      // Datos generales
+      numero: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       fechaElaboracion: ['', Validators.required],
       paciente: ['', Validators.required],
       doctor: ['', Validators.required],
@@ -41,53 +57,44 @@ export class PresupuestosFormComponent implements OnInit {
       estado: ['Borrador', Validators.required],
       fechaVencimiento: ['', Validators.required],
 
-      //  Detalle de conceptos 
+      // Detalle de conceptos
       conceptos: this.fb.array([]),
 
-      //  Totales
+      // Totales
       subtotalGeneral: [{ value: 0, disabled: true }],
       descuentoTotal: [{ value: 0, disabled: true }],
       impuestosTotales: [{ value: 0, disabled: true }],
       totalFinal: [{ value: 0, disabled: true }],
 
-      //  Datos adicionales
+      // Datos adicionales
       condicionesPago: [''],
       notas: [''],
       moneda: ['MXN'],
       metodoPago: [''],
     });
 
-    // Agrega al menos 1 renglón al iniciar
     this.agregarConcepto();
-
     this.conceptos.valueChanges.subscribe(() => this.recalcularTotales());
   }
 
-  // ---------- Getters / Helpers ----------
+  // ---------- Getters ----------
   get conceptos(): FormArray {
     return this.formularioPresupuesto.get('conceptos') as FormArray;
   }
 
-  private n(v: any): number {
-    const num = Number(v);
-    return isFinite(num) ? num : 0;
-  }
-
-  // ---------- Renglones de conceptos ----------
+  // ---------- Conceptos ----------
   agregarConcepto(): void {
     const grupo = this.fb.group({
       descripcion: ['', Validators.required],
       cantidad: [1, [Validators.required, Validators.min(1)]],
       precioUnitario: [0, [Validators.required, Validators.min(0)]],
-      descuento: [0, [Validators.min(0)]], 
+      descuento: [0, [Validators.min(0)]],
       subtotal: [{ value: 0, disabled: true }],
       impuestos: [{ value: 0, disabled: true }],
       total: [{ value: 0, disabled: true }],
     });
 
-    // Recalcula totales 
     grupo.valueChanges.subscribe(() => this.recalcularTotales());
-
     this.conceptos.push(grupo);
     this.recalcularTotales();
   }
@@ -97,7 +104,12 @@ export class PresupuestosFormComponent implements OnInit {
     this.recalcularTotales();
   }
 
-  // ---------- Cálculos ----------
+  // ---------- Totales ----------
+  private n(v: any): number {
+    const num = Number(v);
+    return isFinite(num) ? num : 0;
+  }
+
   private recalcularTotales(): void {
     let subtotalGeneral = 0;
     let descuentoTotal = 0;
@@ -108,18 +120,14 @@ export class PresupuestosFormComponent implements OnInit {
       const g = ctrl as FormGroup;
       const cantidad = this.n(g.get('cantidad')?.value);
       const precio = this.n(g.get('precioUnitario')?.value);
-      const descuento = this.n(g.get('descuento')?.value); 
+      const descuento = this.n(g.get('descuento')?.value);
 
       const subtotal = cantidad * precio;
       const base = Math.max(subtotal - descuento, 0);
       const impuestos = base * this.IVA;
       const total = base + impuestos;
 
-      // Actualiza campos de la fila
-      g.patchValue(
-        { subtotal, impuestos, total },
-        { emitEvent: false }
-      );
+      g.patchValue({ subtotal, impuestos, total }, { emitEvent: false });
 
       subtotalGeneral += subtotal;
       descuentoTotal += descuento;
@@ -127,11 +135,64 @@ export class PresupuestosFormComponent implements OnInit {
       totalFinal += total;
     });
 
-    // Actualiza totales en el form
-    this.formularioPresupuesto.get('subtotalGeneral')?.setValue(subtotalGeneral, { emitEvent: false });
-    this.formularioPresupuesto.get('descuentoTotal')?.setValue(descuentoTotal, { emitEvent: false });
-    this.formularioPresupuesto.get('impuestosTotales')?.setValue(impuestosTotales, { emitEvent: false });
-    this.formularioPresupuesto.get('totalFinal')?.setValue(totalFinal, { emitEvent: false });
+    this.formularioPresupuesto.patchValue(
+      {
+        subtotalGeneral,
+        descuentoTotal,
+        impuestosTotales,
+        totalFinal,
+      },
+      { emitEvent: false }
+    );
+  }
+
+  // ---------- Mock carga al editar ----------
+  private cargarPresupuesto(id: number): void {
+    const mock = {
+      numero: id,
+      fechaElaboracion: new Date('2025-09-01'),
+      paciente: 'Juan Pérez',
+      doctor: 'Dr. Ramírez',
+      usuario: 'Admin',
+      estado: 'Aprobado',
+      fechaVencimiento: new Date('2025-09-30'),
+      condicionesPago: 'Contado',
+      notas: 'Ejemplo de nota',
+      moneda: 'MXN',
+      metodoPago: 'Efectivo',
+      conceptos: [
+        {
+          descripcion: 'Consulta general',
+          cantidad: 1,
+          precioUnitario: 500,
+          descuento: 0,
+          subtotal: 500,
+          impuestos: 80,
+          total: 580,
+        },
+      ],
+    };
+
+    // Limpiar conceptos antes de asignar
+    while (this.conceptos.length) this.conceptos.removeAt(0);
+
+    this.formularioPresupuesto.patchValue(mock);
+
+    mock.conceptos.forEach((c) => {
+      const grupo = this.fb.group({
+        descripcion: [c.descripcion, Validators.required],
+        cantidad: [c.cantidad, [Validators.required, Validators.min(1)]],
+        precioUnitario: [c.precioUnitario, [Validators.required, Validators.min(0)]],
+        descuento: [c.descuento, [Validators.min(0)]],
+        subtotal: [{ value: c.subtotal, disabled: true }],
+        impuestos: [{ value: c.impuestos, disabled: true }],
+        total: [{ value: c.total, disabled: true }],
+      });
+      grupo.valueChanges.subscribe(() => this.recalcularTotales());
+      this.conceptos.push(grupo);
+    });
+
+    this.recalcularTotales();
   }
 
   // ---------- Validación usada por el template ----------
@@ -152,23 +213,20 @@ export class PresupuestosFormComponent implements OnInit {
       this.formularioPresupuesto.markAllAsTouched();
       return;
     }
-    // getRawValue para incluir controles deshabilitados 
+
     const payload = this.formularioPresupuesto.getRawValue();
     console.log('Presupuesto ->', payload);
-    alert('Presupuesto guardado ');
+
+    this.snack.open(
+      this.idEdit ? 'Presupuesto actualizado' : 'Presupuesto creado',
+      'OK',
+      { duration: 2000 }
+    );
+
     this.router.navigate(['/presupuestos']);
   }
 
   cancelar(): void {
-    if (confirm('¿Cancelar y limpiar el formulario?')) {
-      while (this.conceptos.length) this.conceptos.removeAt(0);
-      this.formularioPresupuesto.reset({
-        estado: 'Borrador',
-        moneda: 'MXN',
-      });
-       this.agregarConcepto();
-      
-      this.router.navigate(['/presupuestos']);
-    }
+    this.router.navigate(['/presupuestos']);
   }
 }
