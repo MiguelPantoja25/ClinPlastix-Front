@@ -1,0 +1,20 @@
+
+.botones-acciones {
+  display: flex;
+  justify-content: flex-end; /* alineados a la derecha */
+  gap: 12px; /* espacio entre botones */
+}
+/* Previsualización del avatar */
+.avatar-preview {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.avatar-preview img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
