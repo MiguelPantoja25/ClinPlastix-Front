@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
-  declarations: [LoginComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
