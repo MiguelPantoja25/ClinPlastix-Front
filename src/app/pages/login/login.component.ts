@@ -16,16 +16,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class LoginComponent implements OnInit {
   formularioLogin!: FormGroup;
+  formularioRecuperar!: FormGroup;
   hide = true; // para mostrar/ocultar contraseña
+  mostrarOlvido = false; //bandera
 
  constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private snack: MatSnackBar 
+    private snack: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
     this.generarForm();
+    this.generarFormRecuperar();
   }
 
    generarForm(): void {
@@ -33,6 +36,13 @@ export class LoginComponent implements OnInit {
       usuario: new FormControl('', [Validators.required,Validators.minLength(2),]),
       contraseña: new FormControl('', [ Validators.required,Validators.minLength(2),]),
     });
+  }
+
+  generarFormRecuperar(): void {
+  this.formularioRecuperar = new FormGroup({
+    usuario: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    correo: new FormControl('', [Validators.required, Validators.email]),
+  });
   }
 
 
@@ -47,6 +57,9 @@ export class LoginComponent implements OnInit {
 
     // ejemplo
     if (usuario === 'admin' && contraseña === '1234') {
+      const userData = { nombre: 'Admin', rol: 'Administrador'};
+        localStorage.setItem('user', JSON.stringify(userData));
+
       this.snack.open('Inicio de sesión correcto', 'OK', { duration: 2000 });
       console.log('Redirigiendo a dashboard...');
       this.router.navigate(['/dashboard']); // redirige 
@@ -56,10 +69,30 @@ export class LoginComponent implements OnInit {
       });
     }
   }
+
+  //Activar formulario de recuperacion 
    olvidoContrasena() {
-    // Decidir qué hacer
-    this.router.navigate(['/recuperar-password']);
+    this.mostrarOlvido = true;
    }
+
+   volverLogin() {
+    this.mostrarOlvido = false;
+   }
+
+   //ejemplo
+   recuperarContrasena(): void {
+    if (this.formularioRecuperar.invalid) {
+      this.formularioRecuperar.markAllAsTouched();
+      return;
+    }
+    const { usuario, correo } = this.formularioRecuperar.value;
+    this.snack.open(
+      `Se enviaron instrucciones a ${correo} para el usuario ${usuario}`, 
+      'OK', 
+      { duration: 4000 } 
+      );
+    this.volverLogin();
+  }
 
   // Helper para el template
   hasError(ctrl: string, error: string): boolean {

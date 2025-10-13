@@ -1,7 +1,17 @@
 <mat-sidenav-container class="sidenav-container">
 
-    <mat-sidenav #sidenav class="sidenav" [mode]="isMobile ? 'over' : 'side'" [(opened)]="isMenuOpen">
-        <mat-toolbar color="primary">ClinPlatix</mat-toolbar>
+    <mat-sidenav #sidenav class="toolbar-lateral" [mode]="isMobile ? 'over' : 'side'" [(opened)]="isMenuOpen">
+        <mat-toolbar color="primary">
+            <div class="logo">
+                <img src=""  />
+                <span class="app-name">ClinPlatix</span>
+            </div>
+
+        <div class="usuario-info" *ngIf="usuario">
+            <strong>{{ usuario.nombre }}</strong>
+            <small>{{ usuario.rol }}</small>
+        </div>
+        </mat-toolbar>
 
         <mat-nav-list>
             <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="onMenuItemClick()">
@@ -73,7 +83,7 @@
                     <span>Configuración</span>
                 </div>
             </a>
-
+            
             <a mat-list-item (click)="logout()" class="logout-item">
                 <div class="menu-item">
                     <mat-icon>exit_to_app</mat-icon>

@@ -54,3 +54,45 @@ mat-nav-list {
 .logout-item {
   margin-top: auto;
 }
+
+.toolbar-lateral mat-toolbar {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  padding: 10px;
+}
+
+/* Contenedor del logo y texto */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+
+  img {
+    width: 30px;  
+    height: 30px;
+    object-fit: contain;
+  }
+}
+/* Nombre de la app */
+.app-name {
+  font-weight: 600;
+  font-size: 18px;
+  color: white;
+  line-height: 1.2;
+}
+
+/* Usuario debajo del nombre de la app */
+.usuario-info {
+  margin-left: 44px; 
+  margin-top: 2px;
+  color: rgb(211, 208, 208);
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px; 
+}
+
+.usuario-info strong {
+  font-weight: 600;
+}

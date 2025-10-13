@@ -11,11 +11,18 @@ export class LayoutComponent {
   isMenuOpen = true;
   isMobile = false;
   pageTitle: string = 'ClinPlatix';
+  usuario: any = { nombre: 'Juan', rol: 'Administrador'};
 
   constructor(private router: Router, private ar: ActivatedRoute, private title: Title) { }
 
   ngOnInit(): void {
     this.checkScreenSize();
+
+    //Recuperar usuario
+    const usuarioGuardado = localStorage.getItem('usuario');
+    if (usuarioGuardado) {
+      this.usuario = JSON.parse(usuarioGuardado);
+    }
 
     this.router.events.pipe(
       filter(ev => ev instanceof NavigationEnd)
