@@ -19,12 +19,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LoginComponent } from './pages/login/login.component';
+import { ModalGenericoComponent } from './@components/modal-generico/modal-generico.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
     LoginComponent,
+    ModalGenericoComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ MatButtonModule,
 MatIconModule,
 MatCardModule,
 MatSnackBarModule,
+MatDialogModule
   ],
   providers: [
     provideAnimationsAsync()

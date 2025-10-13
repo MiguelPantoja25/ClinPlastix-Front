@@ -1,0 +1,15 @@
+<div class="modal-barra-titulo">
+  <span>{{info.titulo ? info.titulo : 'Notificación'}}</span>
+</div>
+<div class="modal-contenido">
+  <div [innerHTML]="info?.html"></div>
+  <h6>{{info.texto ? info.texto : 'Upps. Se requiere configurar texto'}}</h6>
+  <div class="modal-acciones">
+    <button mat-raised-button (click)="dialogRef.close()" color="primary">
+      {{info.textoBtnCancelar ? info.textoBtnCancelar : 'Cancelar'}}
+    </button>
+    <button mat-stroked-button (click)="dialogRef.close(true);" color="primary">
+      {{info.textoBtnExito ? info.textoBtnExito : 'Aceptar'}}
+    </button>
+  </div>
+</div>

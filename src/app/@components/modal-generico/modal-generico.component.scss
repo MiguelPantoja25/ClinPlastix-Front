@@ -1,0 +1,65 @@
+:host ::ng-deep .mat-dialog-container {
+  padding: 0;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(60, 60, 120, 0.15);
+  min-width: 320px;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.modal-barra-titulo {
+  background: #3f51b5;
+  color: #fff;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 1rem 0.5rem 0.8rem 0.5rem;
+  letter-spacing: 1px;
+}
+
+.modal-contenido {
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  text-align: center;
+  background: #fff;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+
+  h6 {
+    margin: 1.5rem 0 2rem 0;
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 400;
+  }
+}
+
+.modal-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  button {
+    min-width: 110px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 8px rgba(63, 81, 181, 0.08);
+
+    &[mat-raised-button] {
+      background: #3f51b5;
+      color: #fff;
+      &:hover {
+        background: #303f9f;
+      }
+    }
+
+    &[mat-stroked-button] {
+      background: #fff;
+      color: #3f51b5;
+      border: 2px solid #3f51b5;
+      &:hover {
+        background: #e3e6f5;
+      }
+    }
+  }
+}
