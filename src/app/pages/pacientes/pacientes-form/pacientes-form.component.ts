@@ -8,6 +8,9 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import Swal from "sweetalert2";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { DataModal, ModalGenericoComponent } from "../../../@components/modal-generico/modal-generico.component";
 @Component({
   selector: "app-pacientes-form",
   templateUrl: "./pacientes-form.component.html",
@@ -32,6 +35,7 @@ export class PacientesFormComponent implements OnInit {
 */
   constructor(
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private router: Router,
     private snack: MatSnackBar // private pacientesService: PacientesService // cuando conectes backend
   ) { }
@@ -161,16 +165,36 @@ export class PacientesFormComponent implements OnInit {
     // req$.subscribe(() => { ... });
 
     // MOCK de guardado:
-    this.snack.open(
-      this.idEdit ? "Paciente actualizado" : "Paciente creado",
-      "OK",
-      { duration: 2000 }
-    );
+    Swal.fire({
+      //icon: 'question',
+      //icon: 'error',
+      //icon: 'info',
+      icon: 'success',
+      title: 'Registro exitoso',
+      html: "El paciente ha sido registrado con éxito",
+      confirmButtonText: 'Aceptar',
+    });
     this.router.navigate(["/pacientes"]);
   }
 
+  //cancelar(): void {
+    //this.router.navigate(["/pacientes"]);
+  //}
+
   cancelar(): void {
-    this.router.navigate(["/pacientes"]);
+    const datos: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: `Esta seguro que desea cancelar el registro?`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datos };
+    const dialogRefCancel = this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+      if(modal){
+        this.router.navigate(["/pacientes"]);
+      }
+    });
   }
 
   // helpers de validación para template
