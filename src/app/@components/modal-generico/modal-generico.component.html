@@ -2,7 +2,7 @@
   <span>{{info.titulo ? info.titulo : 'Notificación'}}</span>
 </div>
 <div class="modal-contenido">
-  <div [innerHTML]="info?.html"></div>
+  <div *ngIf="info && info.html" [innerHTML]="info.html"></div>
   <h6>{{info.texto ? info.texto : 'Upps. Se requiere configurar texto'}}</h6>
   <div class="modal-acciones">
     <button mat-raised-button (click)="dialogRef.close()" color="primary">
