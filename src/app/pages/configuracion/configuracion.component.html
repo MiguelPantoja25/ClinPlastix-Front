@@ -1,1 +1,72 @@
-<p>configuracion works!</p>
+<!--<p>configuracion works!</p>-->
+<form [formGroup]="formularioConfiguracion" (ngSubmit)="guardar()">
+ <mat-card class="mb-4"> 
+    <mat-card-title>Configuracion de Perfil</mat-card-title>
+     <mat-card-content>
+        <div class="row g-12">
+          <!--Correo-->
+        <mat-form-field class="col-md-6">
+            <mat-label>Correo electronico</mat-label>
+            <input matInput formControlName="correo" placeholder="Correo"/>
+            <mat-error *ngIf="hasError('correo', 'required')">El correo electronico es requerido.</mat-error>
+            <mat-error *ngIf="hasError('correo', 'email')">Correo electronico invalido.</mat-error>
+        </mat-form-field>
+        <!--Telefono-->
+        <mat-form-field class="col-md-6">
+         <mat-label>Telefono</mat-label>
+         <input matInput type="tel" formControlName="telefono" maxlength="10" placeholder="10 dígitos" pattern="[0-9]{10}" (input)="onInputNumber($event)"/>                <mat-error *ngIf="hasError('telefono', 'required')">El telefono es requerido.</mat-error>
+         <mat-error *ngIf="hasError('telefono', 'pattern')">El telefono es invalido.</mat-error>
+        </mat-form-field>
+        <!--Contraseña-->
+        <mat-form-field class="col-md-4">
+         <mat-label>Contraseña</mat-label>
+         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Contraseña" />
+           <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+         <mat-error *ngIf="hasError('password', 'required')">La contraseña es obligatoria</mat-error>
+         <mat-error *ngIf="hasError('password', 'minlength')">Mínimo 6 caracteres</mat-error>
+        </mat-form-field>
+        <!--Confirmacion de Contraseña-->
+        <mat-form-field class="col-md-4">
+            <mat-label>Confirmar contraseña</mat-label>
+            <input matInput [type]="hideConfirm ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Repite la contraseña" />
+                <button mat-icon-button matSuffix type="button" (click)="hideConfirm = !hideConfirm">
+                <mat-icon>{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="formularioConfiguracion.hasError('passwordMismatch') && formularioConfiguracion.get('confirmPassword')?.touched">
+            Las contraseñas no coinciden
+            </mat-error>
+        </mat-form-field>
+        <!--Avatar-->
+        <mat-form-field class="col-md-4">
+          <mat-label>Avatar (URL)</mat-label>
+          <input matInput formControlName="avatar" placeholder="URL de avatar" />
+        </mat-form-field>
+        <!-- Mostrar avatar -->
+        <div class="avatar-preview" *ngIf="formularioConfiguracion.get('avatar')?.value">
+            <img [src]="formularioConfiguracion.get('avatar')?.value" alt="Avatar" class="avatar-img"/>
+        </div>
+    </div>
+    </mat-card-content>
+        <mat-card-actions class="botones-acciones">
+        <!-- Cancelar (solo visible si está editando) -->
+           <button mat-stroked-button class="btn-cancelar" type="button" *ngIf="editando" (click)="toggleEditarCancelar()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+
+        <!-- Editar (solo visible si NO está editando) -->
+        <button mat-raised-button color="primary" type="button" *ngIf="!editando" (click)="toggleEditarCancelar()">
+            <mat-icon>edit</mat-icon>
+            Editar
+        </button>
+
+        <!-- Guardar (solo visible si está editando) -->
+        <button mat-raised-button color="primary" type="submit" *ngIf="editando">
+            <mat-icon>save</mat-icon>
+            Guardar
+        </button>
+</mat-card-actions>
+  </mat-card>  
+</form>
