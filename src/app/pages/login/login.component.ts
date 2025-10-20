@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 import { DataModal, ModalGenericoComponent } from '../../@components/modal-generico/modal-generico.component';
 
 @Component({
@@ -65,16 +66,12 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
     
     } else {
-      //Modal error
-      const datos: DataModal ={
-        clase: 'error',
-        titulo: 'Error ',
-        texto: 'Usuario o contraseña incorrectos',
-        textoBtnExito: 'Aceptar',
-        textoBtnCancelar: '',
-      };
-      const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datos };
-      this.dialog.open(ModalGenericoComponent, opciones);
+      Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              html: "Usuario o contraseña incorrectos",
+              confirmButtonText: 'Aceptar',
+      });
     }
     }
 
