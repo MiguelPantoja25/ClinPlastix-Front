@@ -17,6 +17,7 @@
           <mat-label>Contraseña</mat-label>
           <input matInput [type]="hide ? 'password' : 'text'" formControlName="contraseña" placeholder="contraseña" />
         <button mat-icon-button matSuffix 
+          type="button"
           (click)="hide = !hide" 
           [attr.aria-label]="'Mostrar contraseña'" 
           [attr.aria-pressed]="!hide">
@@ -36,7 +37,7 @@
 
     <!-- Acciones -->
   <div style="display: flex; justify-content: flex-end">
-    <button mat-stroked-button type="button" (click)="IniciarSesion()">
+    <button mat-stroked-button type="submit" (click)="IniciarSesion()">
       Iniciar sesion
     </button>
   </div>
@@ -62,7 +63,7 @@
 
    <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
       <button mat-stroked-button color="warn" type="button" (click)="volverLogin()">Volver</button>
-      <button mat-stroked-button color="primary" type="submit" (click)="recuperarContrasena()">Recuperar</button>
+      <button mat-stroked-button color="primary" type="button" (click)="recuperarContrasena()">Recuperar</button>
     </div>
   </form>
 </div>

@@ -4,7 +4,10 @@ import { FormBuilder, //creacion del formulario
    Validators, //validaciones requeridas del formulario 
    AbstractControl,//validaciones personalizadas
    ValidationErrors } from '@angular/forms';
-
+import Swal from 'sweetalert2';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DataModal, ModalGenericoComponent } from '../../@components/modal-generico/modal-generico.component';
+import { Router } from '@angular/router';
    //decorados.
 @Component({
   selector: 'app-configuracion',
@@ -27,7 +30,10 @@ export class ConfiguracionComponent implements OnInit {
     avatar: 'https://c0.klipartz.com/pngpicture/439/19/gratis-png-icono-de-perfil-de-usuario-de-avatar-thumbnail.png' 
   };
 
- constructor(private fb: FormBuilder) {} 
+ constructor(private fb: FormBuilder, 
+  private dialog: MatDialog,
+  private router: Router,
+) {} 
 
  ///validaciones del formulario.
    ngOnInit(): void {
@@ -80,6 +86,7 @@ export class ConfiguracionComponent implements OnInit {
       this.hideConfirm = false;
 
     } else {
+      this.cancelar();
       this.formularioConfiguracion.patchValue(this.usuarioActual); //vuelve a los datos iguales
       this.formularioConfiguracion.disable(); // solo lectura sin edicion 
       this.formularioConfiguracion.markAsPristine(); 
@@ -91,25 +98,64 @@ export class ConfiguracionComponent implements OnInit {
 
     }
   }
+  // cancelar
+  cancelar(): void {
+    const datos: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: `¿Está seguro que desea cancelar los cambios?`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datos };
+    this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+      if(modal){
+        this.formularioConfiguracion.patchValue(this.usuarioActual);
+        this.formularioConfiguracion.disable();
+        this.formularioConfiguracion.markAsPristine();
+        this.formularioConfiguracion.markAsUntouched();
+        this.hide = true;
+        this.hideConfirm = true;
+        this.editando = false;
 
-  // Guardar
-  guardar(): void {
-    if (this.formularioConfiguracion.valid) {
-      console.log('Datos guardados:', this.formularioConfiguracion.value);
-
-      //  Actualizar datos 
-      this.usuarioActual = { ...this.formularioConfiguracion.value };
-
-      //  Volver a la parte sin edicion 
-      this.editando = false;
-      this.formularioConfiguracion.disable();
-
-       //ocultar contraseñas/guardar
-      this.hide = true;
-      this.hideConfirm = true;
-
-    } else {
-      this.formularioConfiguracion.markAllAsTouched(); // mostrar errores si hay campos inválidos
-    }
+        Swal.fire({
+          icon: 'info',
+          title: 'Edición cancelada',
+          html: 'Los cambios no fueron guardados.',
+          confirmButtonText: 'Aceptar',
+        }).then(() => {
+          this.router.navigate(['/configuracion']);
+        });
+      } else {
+        this.editando = true;
+      }
+    });
   }
+  // Guardar
+    guardar(): void {
+      if (this.formularioConfiguracion.invalid) { 
+        this.formularioConfiguracion.markAllAsTouched(); 
+        return; 
+      }
+      const datosConfirmacion: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: `¿Desea guardar la configuracion?`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datosConfirmacion };
+    this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+      if(modal){
+        Swal.fire({
+          icon: 'success',
+          title: 'Configuración actualizada',
+          html: 'La combios se han guardado correctamente',
+          confirmButtonText: 'Aceptar',
+        }).then(() => {
+          this.router.navigate(["/configuracion"]);
+        });
+      }
+    });
+}
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 interface Presupuesto {
   id: number;
@@ -100,8 +101,25 @@ nuevoPresupuesto() {
 }
 
   eliminarPresupuesto(id: number) {
-    this.presupuestos = this.presupuestos.filter(p => p.id !== id);
-    this.presupuestosFiltrados = [...this.presupuestos];
-    this.actualizarResumen();
-  }
+    Swal.fire({
+      icon: 'warning',
+      title: '¿Desea eliminar este paciente?',
+      text: "Esta acción no se puede deshacer.",
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then(result => {
+    if (result.isConfirmed) {
+      this.presupuestos = this.presupuestos.filter(p => p.id !== id);
+      this.actualizarResumen();
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'El paciente ha sido eliminado con éxito',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+  });
+}
 }

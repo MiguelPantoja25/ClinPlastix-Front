@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioTabla } from '../../../models/usuario';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-usuarios-list',
   templateUrl: './usuarios-list.component.html',
@@ -147,11 +147,26 @@ displayedColumns: string[] = ['id','userName', 'nombre', 'telefono','rol', 'esta
   }
 
   eliminar(id: string): void {
-    if (confirm('¿Deseas eliminar este usuario?')) {
+    Swal.fire({
+      icon: 'warning',
+      title: '¿Desea eliminar este usuario?',
+      text: "Esta acción no se puede deshacer.",
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then(result => {
+    if (result.isConfirmed) {
       this.usuarios = this.usuarios.filter(u => u.id !== id);
       this.calcularResumen();
-      this.aplicarFiltro();
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'El Usuario se ha sido eliminado con éxito',
+        confirmButtonText: 'Aceptar'
+      });
     }
+  });
   }
 
   NuevoUsuario(): void {

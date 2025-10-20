@@ -9,7 +9,9 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
-
+import Swal from 'sweetalert2';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { DataModal, ModalGenericoComponent } from '../../../@components/modal-generico/modal-generico.component';
 @Component({
   selector: "app-usuarios-form",
   templateUrl: "./usuarios-form.component.html",
@@ -27,7 +29,8 @@ export class UsuariosFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -125,23 +128,43 @@ export class UsuariosFormComponent implements OnInit {
       this.formularioUsuario.markAllAsTouched();
       return;
     }
+    const datosConfirmacion: DataModal = {
+    clase: '',
+    titulo: 'Aviso',
+    texto: `¿Desea guardar el usuario?`,
+    textoBtnExito: 'Aceptar',
+    textoBtnCancelar: 'Cancelar',
+  };
+  const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datosConfirmacion };
+  this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+    if(modal){
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        html: this.idEdit ? "El usuario ha sido actualizado con éxito" : "El usuario ha sido registrado con éxito",
+        confirmButtonText: 'Aceptar',
+      }).then(() => {
+        this.router.navigate(["/usuarios"]);
+      });
+    }
+  });
 
-    const payload = {
-      ...this.formularioUsuario.getRawValue(), // incluye disabled
-      id: this.idEdit,
-    };
-
-    // Aquí conectas con backend
-    this.snack.open(
-      this.idEdit ? "Usuario actualizado" : "Usuario creado",
-      "OK",
-      { duration: 2000 }
-    );
-    this.router.navigate(["/usuarios"]);
-  }
+}
 
   cancelar(): void {
-    this.router.navigate(["/usuarios"]);
+    const datos: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: `¿Está seguro que desea cancelar el registro?`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datos };
+    const dialogRefCancel = this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+      if(modal){
+        this.router.navigate(["/usuarios"]);
+      }
+    });
   }
 
   // helpers de validación para template

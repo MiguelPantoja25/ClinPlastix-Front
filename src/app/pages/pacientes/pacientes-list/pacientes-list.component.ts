@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2'; 
 
 interface Paciente {
   id: number;
@@ -132,11 +133,33 @@ constructor(private router: Router) {}
   this.router.navigate(['/pacientes/editar', id]);
   }
 
+  //eliminar(id: number): void {
+  //  if (confirm('¿Deseas eliminar este paciente?')) {
+  //    this.pacientes = this.pacientes.filter(p => p.id !== id);
+  //    this.calcularResumen();
+  //  }
+  //}
   eliminar(id: number): void {
-    if (confirm('¿Deseas eliminar este paciente?')) {
+    Swal.fire({
+      icon: 'warning',
+      title: '¿Desea eliminar este paciente?',
+      text: "Esta acción no se puede deshacer.",
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then(result => {
+    if (result.isConfirmed) {
       this.pacientes = this.pacientes.filter(p => p.id !== id);
       this.calcularResumen();
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'El paciente ha sido eliminado con éxito',
+        confirmButtonText: 'Aceptar'
+      });
     }
+  });
   }
 
   NuevoPaciente(): void {
