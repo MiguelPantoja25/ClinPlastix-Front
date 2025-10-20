@@ -2,6 +2,9 @@ import { Component, HostListener } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { ModalGenericoComponent, DataModal } from '../../@components/modal-generico/modal-generico.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -13,7 +16,7 @@ export class LayoutComponent {
   pageTitle: string = 'ClinPlatix';
   usuario: any = { nombre: 'Juan', rol: 'Administrador'};
 
-  constructor(private router: Router, private ar: ActivatedRoute, private title: Title) { }
+  constructor(private router: Router, private ar: ActivatedRoute, private title: Title, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.checkScreenSize();
@@ -62,9 +65,36 @@ export class LayoutComponent {
     }
   }
   
-  logout() {
-  localStorage.clear();
-  this.router.navigate(['/login']);
-}
+logout() {
+    const datosConfirmacion: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: '¿Está seguro que desea cerrar sesión?',
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar'
+    };
+
+    const opciones: MatDialogConfig = {
+      disableClose: true,
+      hasBackdrop: true,
+      data: datosConfirmacion
+    };
+
+    this.dialog.open(ModalGenericoComponent, opciones)
+      .afterClosed()
+      .subscribe(confirmado => {
+        if (confirmado) {
+
+          localStorage.clear();
+          this.router.navigate(['/login']);
+          Swal.fire({
+            icon: 'success',
+            title: 'Sesión cerrada',
+            text: 'Has cerrado sesión correctamente',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      });
+  }
 
 }
