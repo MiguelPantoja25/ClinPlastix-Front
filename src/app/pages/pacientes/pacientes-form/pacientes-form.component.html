@@ -1,6 +1,10 @@
-<form [formGroup]="formularioPaciente" (ngSubmit)="guardar()">
+<mat-stepper [linear]="isLinear" #stepper>
+
+  <mat-step [stepControl]="formularioPaciente" label="Datos del paciente">
+
+<form [formGroup]="formularioPaciente" >
   <!-- Datos generales -->
-  <mat-card class="mb-4">
+  <mat-card class="mb-4"> 
     <mat-card-title>Datos del paciente - {{ formularioPaciente.get('id')?.value }}</mat-card-title>
     <mat-card-content>
       <div class="row g-3">
@@ -15,8 +19,7 @@
           <mat-label>Apellido Paterno</mat-label>
           <input matInput formControlName="apellidoPaterno" placeholder="Apellido Paterno" />
           <mat-error *ngIf="hasError('apellidoPaterno', 'required')">El apellido paterno es requerido.</mat-error>
-          <mat-error *ngIf="hasError('apellidoPaterno', 'minlength')">El apellido paterno debe tener al menos 2
-            caracteres.</mat-error>
+          <mat-error *ngIf="hasError('apellidoPaterno', 'minlength')">El apellido paterno debe tener al menos 2 caracteres.</mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-2">
@@ -113,6 +116,27 @@
     </mat-card-content>
   </mat-card>
 
+  <!-- Consentimiento -->
+  <mat-card class="mb-4">
+    <mat-card-content>
+      <mat-checkbox formControlName="aceptaAvisoPrivacidad">
+        He leído y acepto el Aviso de Privacidad
+      </mat-checkbox>
+      <mat-error
+        *ngIf="formularioPaciente.get('aceptaAvisoPrivacidad')?.hasError('required') || formularioPaciente.get('aceptaAvisoPrivacidad')?.hasError('requiredTrue')">
+        Debes aceptar el aviso de privacidad
+      </mat-error>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="mt-3 d-flex justify-content-end">
+        <button mat-raised-button color="primary" (click)="validarFormulario(0, stepper)">Siguiente</button>
+      </div>
+      </form>
+  </mat-step>
+
+  <mat-step [stepControl]="infoAdicionalForm" label="Información clínica">
+    <form [formGroup]="infoAdicionalForm">
   <!-- Clínico básico -->
   <mat-card class="mb-4">
     <mat-card-title>Información clínica</mat-card-title>
@@ -120,7 +144,16 @@
       <div class="row g-3">
         <mat-form-field class="col-md-3">
           <mat-label>Tipo de sangre</mat-label>
-          <input matInput formControlName="tipoSangre" placeholder="p.ej. O+, A-" />
+          <mat-select formControlName="tipoSangre" placeholder="Selecciona un tipo">
+            <mat-option value="A+">A+</mat-option>
+            <mat-option value="A-">A-</mat-option>
+            <mat-option value="B+">B+</mat-option>
+            <mat-option value="B-">B-</mat-option>
+            <mat-option value="AB+">AB+</mat-option>
+            <mat-option value="AB-">AB-</mat-option>
+            <mat-option value="O+">O+</mat-option>
+            <mat-option value="O-">O-</mat-option>
+            </mat-select>
           <mat-error *ngIf="hasError('tipoSangre', 'required')">Requerido</mat-error>
         </mat-form-field>
 
@@ -182,19 +215,19 @@
           <input matInput formControlName="aseguradora" />
         </mat-form-field>
 
-        <mat-form-field class="col-md-4" *ngIf="formularioPaciente.get('aseguradora')?.value">
+        <mat-form-field class="col-md-4" *ngIf="aseguradoraActiva">
           <mat-label>Número de póliza</mat-label>
           <input matInput formControlName="poliza" />
         </mat-form-field>
 
-        <mat-form-field class="col-md-2" *ngIf="formularioPaciente.get('aseguradora')?.value">
+        <mat-form-field class="col-md-2" *ngIf="aseguradoraActiva">
           <mat-label>Vigencia desde</mat-label>
           <input matInput [matDatepicker]="vigD" formControlName="vigenciaDesde" />
           <mat-datepicker-toggle matSuffix [for]="vigD"></mat-datepicker-toggle>
           <mat-datepicker #vigD></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field class="col-md-2" *ngIf="formularioPaciente.get('aseguradora')?.value">
+        <mat-form-field class="col-md-2" *ngIf="aseguradoraActiva">
           <mat-label>Vigencia hasta</mat-label>
           <input matInput [matDatepicker]="vigH" formControlName="vigenciaHasta" />
           <mat-datepicker-toggle matSuffix [for]="vigH"></mat-datepicker-toggle>
@@ -204,7 +237,16 @@
     </mat-card-content>
   </mat-card>
 
+  <div class="mt-3 d-flex justify-content-between">
+        <button mat-stroked-button matStepperPrevious>Volver</button>
+        <button mat-raised-button color="primary" (click)="validarFormulario(1, stepper)">Siguiente</button>
+      </div>
+      </form>
+  </mat-step>
+
   <!-- Facturación (se abre si hay RFC) -->
+    <mat-step [stepControl]="facturacionForm" label="Facturación (opcional)">
+    <form [formGroup]="facturacionForm">
   <mat-card class="mb-4">
     <mat-card-title>Facturación (opcional)</mat-card-title>
     <mat-card-content>
@@ -215,7 +257,7 @@
           <mat-error *ngIf="hasError('rfc', 'pattern')">RFC inválido</mat-error>
         </mat-form-field>
 
-        <div class="col-12" *ngIf="formularioPaciente.get('rfc')?.value">
+        <div class="col-12" *ngIf="rfcActiva">
           <!-- Facturación (se abre si hay RFC) -->
           <mat-divider class="my-2"></mat-divider>
           <div class="row g-3">
@@ -228,13 +270,7 @@
               <mat-label>Uso CFDI</mat-label>
               <input matInput formControlName="factUsoCfdi" placeholder="p.ej. G03" />
             </mat-form-field>
-            <!-- Facturación (se abre si hay RFC) 
-          <div class="col-12 d-flex align-items-center mb-2">
-            <mat-slide-toggle (change)="copiarDomicilioFacturacion($event.checked)">
-              Usar mismo domicilio del paciente
-            </mat-slide-toggle>
-          </div>
--->
+            
             <mat-form-field class="col-md-6">
               <mat-label>Calle y número (fiscal)</mat-label>
               <input matInput formControlName="factCalleNumero" />
@@ -266,27 +302,18 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Consentimiento -->
-  <mat-card class="mb-4">
-    <mat-card-content>
-      <mat-checkbox formControlName="aceptaAvisoPrivacidad">
-        He leído y acepto el Aviso de Privacidad
-      </mat-checkbox>
-      <mat-error
-        *ngIf="formularioPaciente.get('aceptaAvisoPrivacidad')?.hasError('required') || formularioPaciente.get('aceptaAvisoPrivacidad')?.hasError('requiredTrue')">
-        Debes aceptar el aviso de privacidad
-      </mat-error>
-    </mat-card-content>
-  </mat-card>
-
-  <!-- Acciones -->
-
-  <div style="display: flex; justify-content: flex-end">
-    <button mat-stroked-button type="button" (click)="cancelar()">
-      <mat-icon>close</mat-icon> Cancelar
-    </button>
-    <button mat-raised-button color="primary" type="submit" [disabled]="formularioPaciente.invalid" class="ms-3">
-      <mat-icon>save</mat-icon> Guardar
-    </button>
-  </div>
-</form>
+  <div class="mt-3 d-flex justify-content-between">
+        <button mat-stroked-button matStepperPrevious>Volver</button>
+        <div>
+          <button mat-stroked-button type="button" (click)="cancelar()">
+            <mat-icon>close</mat-icon> Cancelar
+          </button>
+          <button mat-raised-button color="primary" type="submit" (click)="guardar()">
+            <mat-icon>save</mat-icon> Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-step>
+</mat-stepper>
+      

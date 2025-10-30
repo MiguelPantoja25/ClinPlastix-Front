@@ -15,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDivider } from "@angular/material/divider";
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatNativeDateModule,
     MatDivider,
     ReactiveFormsModule,MatCheckboxModule,
+    MatStepperModule,
 ]
 })
 export class PacientesModule { }
