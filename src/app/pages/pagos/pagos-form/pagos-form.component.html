@@ -1,0 +1,170 @@
+<form [formGroup]="pagoForm" (ngSubmit)="guardarPago()">
+
+  <!-- Información del paciente -->
+  <mat-card class="mb-4">
+    <mat-card-title>Información del Paciente</mat-card-title>
+    <mat-card-content>
+      <div class="form-grid">
+
+        <mat-form-field appearance="outline">
+          <mat-label>ID del Paciente</mat-label>
+          <input matInput type="number" formControlName="idPaciente" placeholder="ID del paciente">
+          <mat-error *ngIf="pagoForm.get('idPaciente')?.hasError('required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre completo</mat-label>
+          <input matInput formControlName="nombrePaciente" placeholder="Nombre del paciente" readonly>
+          <mat-error *ngIf="pagoForm.get('nombrePaciente')?.hasError('required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número de expediente</mat-label>
+          <input matInput formControlName="expediente" placeholder="Ej: EXP-001">
+        </mat-form-field>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Datos del pago -->
+  <mat-card class="mb-4">
+    <mat-card-title>Datos del Pago</mat-card-title>
+    <mat-card-content>
+      <div class="form-grid">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha del pago</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaPago"
+            placeholder="Selecciona la fecha" />
+          <mat-error *ngIf="pagoForm.get('fechaPago')?.hasError('required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Concepto</mat-label>
+          <mat-select formControlName="concepto">
+            <mat-option value="consulta">Consulta</mat-option>
+            <mat-option value="cirugía">Cirugía</mat-option>
+            <mat-option value="estudios">Estudios</mat-option>
+            <mat-option value="medicamento">Medicamento</mat-option>
+            <mat-option value="otro">Otro</mat-option>
+          </mat-select>
+          <mat-error *ngIf="pagoForm.get('concepto')?.hasError('required')">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Monto total</mat-label>
+          <input matInput type="number" formControlName="montoTotal" (input)="calcularMontoFinal()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descuento</mat-label>
+          <input matInput type="number" formControlName="descuento" (input)="calcularMontoFinal()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Monto a pagar</mat-label>
+          <input matInput type="number" formControlName="montoPagar" readonly>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Método de pago</mat-label>
+          <mat-select formControlName="metodoPago">
+            <mat-option value="efectivo">Efectivo</mat-option>
+            <mat-option value="tarjeta débito">Tarjeta Débito</mat-option>
+            <mat-option value="tarjeta crédito">Tarjeta Crédito</mat-option>
+            <mat-option value="transferencia">Transferencia</mat-option>
+            <mat-option value="seguro médico">Seguro Médico</mat-option>
+            <mat-option value="otro">Otro</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado del pago</mat-label>
+          <mat-select formControlName="estado">
+            <mat-option value="pendiente">Pendiente</mat-option>
+            <mat-option value="pagado">Pagado</mat-option>
+            <mat-option value="parcial">Parcial</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+ <!-- Comprobantes -->
+<div class="comprobantes-section">
+  <mat-card>
+    <mat-card-title>Comprobantes</mat-card-title>
+    <mat-card-content>
+      <div class="form-grid">
+        <div class="campo-recibo">
+          <!-- Campo de número de recibo -->
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Número de recibo</mat-label>
+            <input matInput type="text" formControlName="numRecibo">
+          </mat-form-field>
+
+          <!-- Botón de archivo debajo -->
+          <div class="boton-archivo">
+            <input
+              #inputArchivo
+              type="file"
+              id="archivo"
+              (change)="onArchivoSeleccionado($event)"
+              multiple
+              accept=".pdf, .jpg, .png"
+              hidden
+            >
+            <button mat-raised-button color="primary" type="button" (click)="inputArchivo.click()">
+              Seleccionar archivo
+            </button>
+
+            <!-- Mensaje de error -->
+            <div *ngIf="mensajeError" class="file-error">
+              {{ mensajeError }}
+            </div>
+
+            <!-- Lista de archivos -->
+            <ul *ngIf="archivosSeleccionados.length > 0" class="file-list">
+              <li *ngFor="let archivo of archivosSeleccionados; let i = index">
+                <span>{{ archivo.name }}</span>
+                <button mat-icon-button color="warn" (click)="eliminarArchivo(i)" title="Eliminar">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+  <!-- Notas administrativas -->
+  <mat-card class="mb-4">
+    <mat-card-title>Notas Administrativas</mat-card-title>
+    <mat-card-content>
+      <div class="form-grid">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Observaciones</mat-label>
+          <textarea matInput formControlName="observaciones" rows="3"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Responsable</mat-label>
+          <input matInput type="text" formControlName="responsable" placeholder="Ej: Recepción">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Botones de acción -->
+  <div style="display: flex; justify-content: flex-end">
+    <button mat-stroked-button type="button" (click)="cancelar()">
+      <mat-icon>close</mat-icon> Cancelar
+    </button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="pagoForm.invalid" class="ms-3">
+      <mat-icon>save</mat-icon> Guardar
+    </button>
+  </div>
+</form>
