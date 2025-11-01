@@ -29,6 +29,8 @@ const routes: Routes = [
   { path: '**', redirectTo: 'login' }
 ];
 
+
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
