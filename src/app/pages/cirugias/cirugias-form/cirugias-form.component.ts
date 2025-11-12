@@ -5,6 +5,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import Swal from 'sweetalert2';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { DataModal, ModalGenericoComponent } from '../../../@components/modal-generico/modal-generico.component';
+import { ModalBusquedaPacienteComponent } from '../../../@components/modal-busqueda-paciente/modal-busqueda-paciente.component';
 
 @Component({
   selector: 'app-cirugias-form', 
