@@ -5,6 +5,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import Swal from 'sweetalert2';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { DataModal, ModalGenericoComponent } from '../../../@components/modal-generico/modal-generico.component';
+import { ModalBusquedaPacienteComponent } from '../../../@components/modal-busqueda-paciente/modal-busqueda-paciente.component';
 
 @Component({
   selector: 'app-cirugias-form', 
@@ -13,6 +14,7 @@ import { DataModal, ModalGenericoComponent } from '../../../@components/modal-ge
 })
 export class CirugiasFormComponent implements OnInit {
   formularioCirugias!: FormGroup;
+  bloquearDatosPaciente: boolean = false;
   titulo = "Nueva Cirugia" ;
   idEdit?: number;
   cirugia = {
@@ -29,6 +31,36 @@ export class CirugiasFormComponent implements OnInit {
     private dialog: MatDialog,
 
     ) {}
+
+  busqueda(): void {
+    const dialogRef = this.dialog.open(ModalBusquedaPacienteComponent,{
+      width: '800px',
+      data: {
+        titulo: 'Búsqueda de Paciente',
+        texto: 'Selecciona un paciente para llenar el formulario.',
+        textoBtnCancelar: 'Cancelar',
+        textoBtnExito: 'Aceptar'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Resultado del diálogo:', result);
+      debugger;
+      this.formularioCirugias.patchValue(result);
+
+
+      this.snack.open('Datos del paciente cargados correctamente', 'OK', {
+        duration: 2500
+      });
+
+    } else {
+      console.log('El diálogo fue cerrado sin resultado');
+    
+    }
+  });
+}
+
   ngOnInit() {
     this.generaForm();
 
@@ -45,6 +77,7 @@ export class CirugiasFormComponent implements OnInit {
     this.formularioCirugias = this.fb.group({
       // Datos generales
       folio: ['', Validators.required],
+      idPaciente: ['', Validators.required],
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellidoPaterno: ['', [Validators.required, Validators.minLength(2)]],
       apellidoMaterno: ['', [Validators.required, Validators.minLength(2)]],
@@ -96,6 +129,7 @@ export class CirugiasFormComponent implements OnInit {
   private cargarCirugia(id: number): void{
     const mock: any = {
       folio: id.toString(),
+      idPaciente: id.toString(),
       nombre: 'Juan',
       apellidoPaterno: 'Perez',
       apellidoMaterno: 'Garcia',

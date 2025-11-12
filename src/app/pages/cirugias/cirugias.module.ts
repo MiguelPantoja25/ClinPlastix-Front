@@ -19,11 +19,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'; 
 import { MatTableModule } from '@angular/material/table'; //tabla
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalBusquedaPacienteComponent } from '../../@components/modal-busqueda-paciente/modal-busqueda-paciente.component';
 
 @NgModule({
   declarations: [
     CirugiasListComponent,
-    CirugiasFormComponent
+    CirugiasFormComponent,
+    ModalBusquedaPacienteComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,8 @@ import { MatTableModule } from '@angular/material/table'; //tabla
     MatNativeDateModule,
     MatButtonModule,
     MatIconModule,
-     MatTableModule //tabla
+     MatTableModule, //tabla
+   MatDialogModule
   ]
 })
 

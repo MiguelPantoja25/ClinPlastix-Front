@@ -1,0 +1,182 @@
+:host ::ng-deep .mat-dialog-container {
+  padding: 0;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(60, 60, 120, 0.15);
+  min-width: 320px;
+  max-width: 600px;
+  overflow: hidden;
+}
+
+/* BARRA DE TÍTULO */
+.modal-barra-titulo {
+  background: #3f51b5;
+  color: #fff;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 1rem 0.5rem 0.8rem 0.5rem;
+  letter-spacing: 1px;
+}
+
+/* CONTENIDO DEL MODAL */
+.modal-contenido {
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  text-align: center;
+  background: #fff;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+/* Texto descriptivo */
+.modal-contenido h6 {
+  margin: 1.5rem 0 2rem 0;
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 400;
+}
+
+/* BUSCADOR */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.busqueda-caja {
+  width: 100%;
+  max-width: 630px; 
+  font-size: 0.95rem;
+}
+
+/* Ajusta el botón de búsqueda */
+.boton-buscar {
+  background-color: #3f51b5 !important;
+  color: #fff !important;
+  height: 44px !important;
+  border-radius: 6px !important;
+  padding: 0 1.3rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 5px rgba(63, 81, 181, 0.25);
+  transition: background 0.2s ease, transform 0.15s ease;
+   margin-top: -25px; /* Sube el botón un poco */
+}
+
+.boton-buscar:hover {
+  background-color: #303f9f !important;
+  transform: translateY(-1px);
+}
+
+.boton-buscar mat-icon {
+  font-size: 18px;
+  margin-right: 4px;
+
+}
+
+/* Ajustes del input */
+:host ::ng-deep .mat-form-field-infix {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+/* Estado deshabilitado */
+:host ::ng-deep .boton-buscar:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+}
+
+/* TABLA ESTILIZADA */
+table.mat-elevation-z8 {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+/* Encabezado de la tabla */
+th.mat-header-cell {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Celdas de la tabla */
+td.mat-cell {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+/* Filas alternadas */
+tr.mat-row:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Hover sobre filas */
+tr.mat-row:hover {
+  background-color: #e3e6f5;
+  cursor: pointer;
+}
+
+/* Botón de selección en tabla */
+button.mat-icon-button {
+  transition: transform 0.2s ease;
+}
+
+button.mat-icon-button:hover {
+  transform: scale(1.1);
+}
+
+/* ACCIONES */
+.modal-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.modal-acciones button {
+  min-width: 110px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  box-shadow: 0 2px 8px rgba(63, 81, 181, 0.08);
+}
+
+.modal-acciones button[mat-raised-button] {
+  background: #3f51b5;
+  color: #fff;
+}
+
+.modal-acciones button[mat-raised-button]:hover {
+  background: #303f9f;
+  color: #fff;
+}
+
+/* Limita la altura del contenido */
+.modal-contenido {
+  max-height: 550px;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+/* Mantiene visible la barra de acciones */
+.modal-acciones {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  z-index: 10;
+}
