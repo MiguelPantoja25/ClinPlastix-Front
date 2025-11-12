@@ -1,0 +1,93 @@
+<!--BARRA DE Titulo -->
+<div class="modal-barra-titulo">
+  <span>{{ info.titulo ? info.titulo:'Busqueda de Paciente' }} </span>
+</div>
+<!--Contenido dentro del MODAL-->
+<div class="modal-contenido" >
+  <h6> {{info.texto ? info.texto: 'Selecciona el tipo de busqueda.'}} </h6>
+  <!--ComboBox-->
+  <mat-form-field appearance="outline" style="width: 100%; margin-top: 10px;">
+    <mat-label> Buscar por: </mat-label>
+    <mat-select [(value)]="tipoBusqueda">
+      <mat-option value="id"> ID </mat-option>
+      <mat-option value="nombre"> Nombre </mat-option>
+      <mat-option value="correo"> Correo </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="search-container">
+    <!--Cuadro de TEXTO BUSQUEDA.-->
+    <mat-form-field appearance="outline" class="busqueda-caja">
+      <mat-label>Ingrese datos del Paciente. </mat-label>
+      <input matInput [(ngModel)]="valorBusqueda" placeholder="Escribe los datos del paciente." />
+    </mat-form-field>
+      <!-- Boton Buscar-->   
+    <button mat-raised-button class="boton-buscar" color="primary" [disabled]="!puedeBuscar" (click)="buscar()">
+      <mat-icon> search </mat-icon>   Buscar
+    </button>
+  </div>
+
+  <!--TABLA-->
+  <div *ngIf="mostrarTabla">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"  style="width: 100%; margin-top: 10px;">
+    <!-- ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let paciente">{{ paciente.id }}</td>
+      </ng-container>
+      <!-- NOMBRE -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let paciente">{{ paciente.nombre }}</td>
+      </ng-container>
+      <!-- ApellidoPaterno -->
+      <ng-container matColumnDef="apellidoPaterno">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let paciente">{{ paciente.apellidoPaterno }}</td>
+      </ng-container>
+      <!-- CORREO-->
+      <ng-container matColumnDef="correo">
+        <th mat-header-cell *matHeaderCellDef> Correo </th>
+        <td mat-cell *matCellDef="let paciente">{{ paciente.correo }}</td>
+      </ng-container>
+        <!-- TELEFONO -->
+      <ng-container matColumnDef="telefono">
+        <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+        <td mat-cell *matCellDef="let paciente">{{ paciente.telefono }}</td>
+      </ng-container>
+      <!-- FECHA NACIMIENTO -->
+      <ng-container matColumnDef="fechaNacimiento">
+        <th mat-header-cell *matHeaderCellDef> Fecha Nacimiento </th>
+        <td mat-cell *matCellDef="let paciente">{{ paciente.fechaNacimiento }}</td>
+      </ng-container>
+      <!--Seleccion-->
+       <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Seleccionar </th>
+        <td mat-cell *matCellDef="let paciente">
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="seleccionarPaciente(paciente)"
+          >
+            <mat-icon>
+              {{ pacienteSeleccionado?.id === paciente.id ? 'check_circle' : 'radio_button_unchecked' }}
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+       <!-- FILAS -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  </div>
+</div>
+<!--Acciones del Modal-->
+  <!-- Boton Cancelar-->
+<div class="modal-acciones">
+  <button mat-stroked-button color="warn" (click)="cancelar()">
+    <mat-icon>close</mat-icon> Cancelar
+  </button>
+  <!-- Boton Aceptar-->   
+  <button mat-raised-button color="primary" (click)="abrirModal()" >
+   <mat-icon>save</mat-icon> Aceptar
+  </button>
+</div>

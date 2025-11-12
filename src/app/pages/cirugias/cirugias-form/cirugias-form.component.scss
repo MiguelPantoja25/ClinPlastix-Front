@@ -1,0 +1,13 @@
+.encabezado-cirugia {
+  display: flex;
+  justify-content: space-between; /* separa el título y el botón */
+  align-items: center; /* los alinea verticalmente */
+  margin-bottom: 16px; /* espacio debajo del encabezado */
+}
+
+.encabezado-cirugia button {
+  font-weight: 500;
+  border-radius: 8px;
+   margin-top: 10px;  
+  margin-right: 15px; 
+}
