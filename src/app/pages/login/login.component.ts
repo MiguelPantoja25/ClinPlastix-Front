@@ -7,6 +7,9 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+import { DataModal, ModalGenericoComponent } from '../../@components/modal-generico/modal-generico.component';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +27,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private snack: MatSnackBar,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -59,16 +63,17 @@ export class LoginComponent implements OnInit {
     if (usuario === 'admin' && contraseña === '1234') {
       const userData = { nombre: 'Admin', rol: 'Administrador'};
         localStorage.setItem('user', JSON.stringify(userData));
-
-      this.snack.open('Inicio de sesión correcto', 'OK', { duration: 2000 });
-      console.log('Redirigiendo a dashboard...');
-      this.router.navigate(['/dashboard']); // redirige 
+          this.router.navigate(['/dashboard']);
+    
     } else {
-      this.snack.open('Usuario o contraseña incorrectos', 'Cerrar', {
-        duration: 3000,
+      Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              html: "Usuario o contraseña incorrectos",
+              confirmButtonText: 'Aceptar',
       });
     }
-  }
+    }
 
   //Activar formulario de recuperacion 
    olvidoContrasena() {
@@ -86,13 +91,19 @@ export class LoginComponent implements OnInit {
       return;
     }
     const { usuario, correo } = this.formularioRecuperar.value;
-    this.snack.open(
-      `Se enviaron instrucciones a ${correo} para el usuario ${usuario}`, 
-      'OK', 
-      { duration: 4000 } 
-      );
+    //modal
+    const datos: DataModal ={
+      clase: '',
+      titulo: 'Aviso',
+      texto: `Se enviaron instrucciones a ${correo} para el usuario ${usuario} pueda recuperar la contraseña`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones = { disableClose: true, hasBackdrop: true, data: datos };
+    this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(result => {
     this.volverLogin();
-  }
+  });
+}
 
   // Helper para el template
   hasError(ctrl: string, error: string): boolean {

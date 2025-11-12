@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2'; 
 
 interface Cirugia {
   id: number;
@@ -107,11 +108,27 @@ export class CirugiasListComponent implements OnInit{
     this.router.navigate(['/cirugias/editar', id]);
   }
   eliminar(id: number): void{
-    if (confirm('¿Deseas eliminar la cirugia?')) {
-      this.cirugias = this.cirugias.filter(c => c.id !== id);
-      this.calcularResumen();
-    }
-  }
+        Swal.fire({
+          icon: 'warning',
+          title: '¿Desea eliminar este paciente?',
+          text: "Esta acción no se puede deshacer.",
+          showCancelButton: true,
+          confirmButtonText: 'Si, eliminar',
+          cancelButtonText: 'Cancelar',
+        }).then(result => {
+        if (result.isConfirmed) {
+          this.cirugias = this.cirugias.filter(c => c.id !== id);
+          this.calcularResumen();
+    
+          Swal.fire({
+            icon: 'success',
+            title: 'Eliminado',
+            text: 'El paciente ha sido eliminado con éxito',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      });
+      }
   NuevaCirugia(): void {
     console.group('Crear nueva cirugia');
     this.router.navigate(['/cirugias/nuevo']);

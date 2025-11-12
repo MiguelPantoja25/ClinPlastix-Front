@@ -8,6 +8,10 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { DataModal, ModalGenericoComponent } from '../../../@components/modal-generico/modal-generico.component';
+
 
 @Component({
   selector: 'app-presupuestos-form',
@@ -31,7 +35,8 @@ export class PresupuestosFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -213,20 +218,40 @@ export class PresupuestosFormComponent implements OnInit {
       this.formularioPresupuesto.markAllAsTouched();
       return;
     }
-
-    const payload = this.formularioPresupuesto.getRawValue();
-    console.log('Presupuesto ->', payload);
-
-    this.snack.open(
-      this.idEdit ? 'Presupuesto actualizado' : 'Presupuesto creado',
-      'OK',
-      { duration: 2000 }
-    );
-
-    this.router.navigate(['/presupuestos']);
+    const datosConfirmacion: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: `¿Desea guardar el presupuesto?`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datosConfirmacion };
+    this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+      if(modal){
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro exitoso',
+          html: this.idEdit ? "El presupuesto ha sido actualizado con éxito" : "El presupuesto ha sido registrado con éxito",
+          confirmButtonText: 'Aceptar',
+        }).then(() => {
+          this.router.navigate(["/presupuestos"]);
+        });
   }
-
+});
+  }
   cancelar(): void {
-    this.router.navigate(['/presupuestos']);
+    const datos: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: `¿Está seguro que desea cancelar el registro?`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datos };
+    const dialogRefCancel = this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+      if(modal){
+        this.router.navigate(["/presupuestos"]);
+      }
+    });
   }
 }

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import { ModalBusquedaPacienteComponent } from '../../../@components/modal-busqueda-paciente/modal-busqueda-paciente.component';
+import Swal from 'sweetalert2';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { DataModal, ModalGenericoComponent } from '../../../@components/modal-generico/modal-generico.component';
 
 @Component({
   selector: 'app-cirugias-form', 
@@ -27,6 +28,7 @@ export class CirugiasFormComponent implements OnInit {
     private router: Router,
     private snack: MatSnackBar,
     private dialog: MatDialog,
+
     ) {}
 
   busqueda(): void {
@@ -182,30 +184,43 @@ export class CirugiasFormComponent implements OnInit {
       this.formularioCirugias.markAllAsTouched(); // todos los campos tocados y marque mensaje de error
       return; //corta jecucion y no guarda.
     }
-
-    const confirmar = window.confirm("¿Deseas guardar la cirugía?"); //muestra ventana de navegacion con la ¿?
-    if (confirmar) {
-      console.log("Datos guardados:", this.formularioCirugias.value);
-
-      this.snack.open(
-        this.idEdit ? "Cirugía actualizada" : "Cirugía registrada", // edicion y muestra mensaje
-        "OK",
-        { duration: 2000 } //duracion del mesnaje de 2 segundos 
-      );
-
-      this.router.navigate(["/cirugias"]); //redirige a la pantalla donde esta la lista
-    } else {
-      console.log("El usuario canceló el guardado"); 
+    const datosConfirmacion: DataModal = {
+    clase: '',
+    titulo: 'Aviso',
+    texto: `¿Desea guardar la cirugía?`,
+    textoBtnExito: 'Aceptar',
+    textoBtnCancelar: 'Cancelar',
+  };
+  const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datosConfirmacion };
+  this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+    if(modal){
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        html: this.idEdit ? "La cirugía ha sido actualizada con éxito" : "La cirugía ha sido registrada con éxito",
+        confirmButtonText: 'Aceptar',
+      }).then(() => {
+        this.router.navigate(["/cirugias"]);
+      });
     }
-  }
+  });
+
+}
 
   cancelar(): void {
-    const confirmar = window.confirm("¿Deseas cancelar y volver a la lista?");
-    if (confirmar) {
-      this.router.navigate(["/cirugias"]); // 👉 redirige a la lista
-    } else {
-      console.log("El usuario decidió continuar en el formulario");
-    }
+    const datos: DataModal = {
+      clase: '',
+      titulo: 'Aviso',
+      texto: `¿Está seguro que desea cancelar el registro?`,
+      textoBtnExito: 'Aceptar',
+      textoBtnCancelar: 'Cancelar',
+    };
+    const opciones: MatDialogConfig = { disableClose: true, hasBackdrop: true, data: datos };
+    const dialogRefCancel = this.dialog.open(ModalGenericoComponent, opciones).afterClosed().subscribe(modal => {
+      if(modal){
+        this.router.navigate(["/cirugias"]);
+      }
+    });
   }
 
   hasError(ctrl: string, error: string): boolean {
