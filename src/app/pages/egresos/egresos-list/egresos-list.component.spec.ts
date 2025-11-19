@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EgresosComponent } from './egresos.component';
+import { EgresosListComponent } from './egresos-list.component';
 
-describe('EgresosComponent', () => {
-  let component: EgresosComponent;
-  let fixture: ComponentFixture<EgresosComponent>;
+describe('EgresosListComponent', () => {
+  let component: EgresosListComponent;
+  let fixture: ComponentFixture<EgresosListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EgresosComponent]
+      declarations: [EgresosListComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(EgresosComponent);
+    fixture = TestBed.createComponent(EgresosListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
