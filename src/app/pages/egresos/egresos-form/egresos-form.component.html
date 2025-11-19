@@ -1,0 +1,95 @@
+<form [formGroup]="egresoForm" (ngSubmit)="guardarEgreso()">
+
+  <!-- Información del egreso -->
+  <mat-card class="mb-4">
+    <mat-card-title>Información del Egreso</mat-card-title>
+    <mat-card-content>
+      <div class="form-grid">
+
+        <!-- ID -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>ID del Egreso</mat-label>
+          <input matInput type="number" formControlName="id" />
+          <mat-error *ngIf="egresoForm.get('id')?.hasError('required')">
+            Requerido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Nombre -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" />
+          <mat-error *ngIf="egresoForm.get('nombre')?.hasError('required')">
+            Requerido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Fecha -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Fecha</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fecha" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="egresoForm.get('fecha')?.hasError('required')">
+            Requerido
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Concepto y Método de pago -->
+  <mat-card class="mb-4">
+    <mat-card-title>Detalles del Egreso</mat-card-title>
+    <mat-card-content>
+      <div class="form-grid">
+
+        <!-- Concepto -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Concepto</mat-label>
+          <input matInput formControlName="concepto" />
+          <mat-error *ngIf="egresoForm.get('concepto')?.hasError('required')">
+            Requerido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Método de pago -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Método de pago</mat-label>
+          <mat-select formControlName="metodoPago">
+            <mat-option value="Efectivo">Efectivo</mat-option>
+            <mat-option value="Tarjeta">Tarjeta</mat-option>
+            <mat-option value="Transferencia">Transferencia</mat-option>
+            <mat-option value="Cheque">Cheque</mat-option>
+          </mat-select>
+          <mat-error *ngIf="egresoForm.get('metodoPago')?.hasError('required')">
+            Requerido
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Monto -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Monto</mat-label>
+          <input matInput type="number" formControlName="monto" />
+          <mat-error *ngIf="egresoForm.get('monto')?.hasError('required')">
+            Requerido
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Botones -->
+  <div class="botonera">
+    <button mat-stroked-button type="button" color="warn" (click)="cancelar()">
+      <mat-icon>close</mat-icon> Cancelar
+    </button>
+
+    <button mat-raised-button color="accent" type="submit" [disabled]="egresoForm.invalid" class="boton-guardar">
+      <mat-icon>save</mat-icon> Guardar
+    </button>
+  </div>
+
+</form>
