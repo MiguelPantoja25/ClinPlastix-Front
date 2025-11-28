@@ -1,0 +1,103 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+mat-card {
+  box-shadow: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+mat-card-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+button {
+  margin-left: 10px;
+}
+
+
+button[mat-raised-button] {
+  background-color: #3f51b5;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  padding: 10px 20px;
+  text-transform: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #2e3c9b;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+button[mat-stroked-button] {
+  border-color: #3f51b5;
+  color: #3f51b5;
+  font-weight: 500;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  padding: 10px 20px;
+  text-transform: none;
+}
+
+button[mat-stroked-button]:hover {
+  background-color: rgba(63, 81, 181, 0.08);
+}
+
+mat-error {
+  font-size: 0.85rem;
+}
+
+mat-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.boton-guardar:disabled {
+  background-color: #bdbdbd !important;
+  color: white !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
+.boton-guardar:not(:disabled) {
+  background-color: #3f51b5 !important; 
+  color: white !important;
+  font-weight: 600;
+  box-shadow: 0px 4px 12px rgba(156, 39, 176, 0.45);
+}
+
+@media (max-width: 600px) {
+  mat-card {
+    padding: 0.8rem;
+  }
+
+  button {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
