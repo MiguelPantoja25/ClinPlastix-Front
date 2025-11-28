@@ -1,0 +1,92 @@
+<!-- Tarjetas resumen -->
+<div class="resumen-cards">
+  <mat-card class="card" *ngFor="let item of resumen">
+    <mat-icon class="icon">{{ item.icono }}</mat-icon>
+    <div class="info">
+      <span class="valor">{{ item.valor }}</span>
+      <span class="titulo">{{ item.titulo }}</span>
+    </div>
+  </mat-card>
+</div>
+
+<!-- Tabla de Egresos -->
+<mat-card class="tabla-card">
+  <div class="buscador-acciones">
+    <mat-form-field appearance="outline" class="buscador">
+      <mat-label>Buscar egreso</mat-label>
+      <input
+        matInput
+        [(ngModel)]="filtro"
+        (ngModelChange)="aplicarFiltro()"
+        placeholder="Nombre o concepto"
+      />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="nuevoEgreso()">
+      <mat-icon>add_circle</mat-icon> Nuevo egreso
+    </button>
+  </div>
+
+  <table
+    mat-table
+    [dataSource]="egresosFiltrados"
+    class="mat-elevation-z8 full-width-table"
+  >
+    <!-- ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID Egreso</th>
+      <td mat-cell *matCellDef="let e">{{ e.id }}</td>
+    </ng-container>
+
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let e">{{ e.nombre }}</td>
+    </ng-container>
+
+    <!-- Fecha -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let e">
+        {{ e.fecha | date: 'shortDate' }}
+      </td>
+    </ng-container>
+
+    <!-- Concepto -->
+    <ng-container matColumnDef="concepto">
+      <th mat-header-cell *matHeaderCellDef>Concepto</th>
+      <td mat-cell *matCellDef="let e">{{ e.concepto }}</td>
+    </ng-container>
+
+    <!-- Método -->
+    <ng-container matColumnDef="metodo">
+      <th mat-header-cell *matHeaderCellDef>Método</th>
+      <td mat-cell *matCellDef="let e">{{ e.metodo }}</td>
+    </ng-container>
+
+    <!-- Monto -->
+    <ng-container matColumnDef="monto">
+      <th mat-header-cell *matHeaderCellDef>Monto</th>
+      <td mat-cell *matCellDef="let e">
+        {{ e.monto | currency: 'MXN':'symbol' }}
+      </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let e">
+        <button mat-icon-button color="primary" (click)="editar(e.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" (click)="eliminar(e.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-card>

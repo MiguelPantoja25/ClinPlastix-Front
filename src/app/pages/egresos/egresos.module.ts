@@ -1,17 +1,40 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { EgresosRoutingModule } from './egresos-routing.module';
-import { EgresosComponent } from './egresos.component';
+import { EgresosFormComponent } from './egresos-form/egresos-form.component';
+import { EgresosListComponent } from './egresos-list/egresos-list.component';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
-    EgresosComponent
+    EgresosFormComponent,
+    EgresosListComponent
   ],
   imports: [
     CommonModule,
-    EgresosRoutingModule
+    FormsModule,
+    ReactiveFormsModule,
+    EgresosRoutingModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatButtonModule,
+    MatSelectModule   
   ]
 })
 export class EgresosModule { }
