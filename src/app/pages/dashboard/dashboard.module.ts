@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 
+import { NgApexchartsModule } from "ng-apexcharts";
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -11,7 +14,9 @@ import { DashboardComponent } from './dashboard.component';
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    NgApexchartsModule,
+    FormsModule
   ]
 })
 export class DashboardModule { }

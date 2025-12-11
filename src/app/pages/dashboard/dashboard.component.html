@@ -1,1 +1,54 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+
+  <!--Barra superior -->
+  <div class="filters-card">
+    <div class="filters-row">
+      <input type="date" [(ngModel)]="fechaInicio">
+      <input type="date" [(ngModel)]="fechaFin">
+
+      <button class="btn-search" (click)="buscar()">Buscar</button>
+    </div>
+  </div>
+
+  <!--Tarjetas superiores -->
+  <div class="top-cards">
+    
+    <div class="card">
+      <h3>Citas</h3>
+      <p class="big-number">{{ citas }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Cirugías</h3>
+      <p class="big-number">{{ cirugias }}</p>
+    </div>
+
+  </div>
+
+  <!--Gráficas inferiores -->
+  <div class="bottom-cards">
+
+    <div class="card">
+      <h3>Ingresos</h3>
+      <apx-chart
+        [series]="ingresosSeries"
+        [chart]="ingresosOptions.chart"
+        [xaxis]="ingresosOptions.xaxis"
+        [dataLabels]="ingresosOptions.dataLabels"
+        [stroke]="ingresosOptions.stroke">
+      </apx-chart>
+    </div>
+
+    <div class="card">
+      <h3>Egresos</h3>
+      <apx-chart
+        [series]="egresosSeries"
+        [chart]="egresosOptions.chart"
+        [xaxis]="egresosOptions.xaxis"
+        [dataLabels]="egresosOptions.dataLabels"
+        [stroke]="egresosOptions.stroke">
+      </apx-chart>
+    </div>
+
+  </div>
+</div>
